@@ -44,12 +44,13 @@ public class Main {
         Actions actions = new Actions(driver);
         actions.moveToElement(element).click().perform();
         registerButton.click();
+        postRegister();
     }
     static void login() {
         WebElement loginButton = driver.findElement(By.id("signup_login_button"));
         loginButton.click();
         WebElement elEmail = driver.findElement(By.id("signup_determine_email"));
-        elEmail.sendKeys("fivadimuf@armail.in");
+        elEmail.sendKeys("fivadimuf@armail.in"); // login - LpiNKEfl
         try {
             loginButton.click();
         }
@@ -65,13 +66,40 @@ public class Main {
         }
         catch (ElementClickInterceptedException exception) {
             System.out.println("Exception proceded #2");
-            WebElement loginButtonExp = driver.findElement(By.cssSelector(".account_actions_login_and_register.chrome"));
-            loginButtonExp.click();
+            try {
+                WebElement loginButtonExp = driver.findElement(By.cssSelector(".account_actions_login_and_register.chrome"));
+                loginButtonExp.click();
+            }
+            catch (NoSuchElementException exp) {
+                System.out.println("Exception proceded #3");
+                logWithpwd.click();
+            }
         }
         WebElement elPwd = driver.findElement(By.id("signup_password"));
         elPwd.sendKeys("l4oKDSxGulVY");
         WebElement finalLogButton = driver.findElement(By.id("signup_forms_submit"));
         finalLogButton.click();
+        /*
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
+        driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
+        postRegister();
+        */ // To test postRegister after login
 
+    }
+    static void postRegister() {
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
+        WebElement elementHandMade = ((ChromeDriver) driver).findElementByXPath("//div[@data-name='handmade']");
+        //System.out.println("Trying to clck");
+        elementHandMade.click();
+        WebElement elementStudent = ((ChromeDriver) driver).findElementByXPath("//div[@data-name='student']");
+        elementStudent.click();
+        WebElement elementTravel = ((ChromeDriver) driver).findElementByXPath("//div[@data-name='travel']");
+        elementTravel.click();
+        WebElement elementNature= ((ChromeDriver) driver).findElementByXPath("//div[@data-name='nature']");
+        elementNature.click();
+        WebElement elementMusicians = ((ChromeDriver) driver).findElementByXPath("//div[@data-name='musicians']");
+        elementMusicians.click();
+        WebElement nextButton = driver.findElement(By.className("onboarding-progress-button"));
+        nextButton.click();
     }
 }
