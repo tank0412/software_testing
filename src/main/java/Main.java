@@ -116,6 +116,7 @@ public class Main {
 
        */
         //postMusic("Кукушка гагарина");
+        postVideo("https://youtu.be/Ra0ozaE-oy0");
     }
 
     static void postRegister() {
@@ -243,6 +244,20 @@ public class Main {
         customWait();
         WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
         Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
+    }
+    static void postVideo(String videoUrl) {
+        WebElement postVideo = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_video']");
+        postVideo.click();
+        WebElement elTextBody = driver.findElement(By.cssSelector(".split-cell.media-url-button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(elTextBody).click().build().perform();
+        WebElement elTextBodyUrl = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка на видео
+        elTextBodyUrl.sendKeys(videoUrl);
+        elTextBodyUrl.sendKeys(Keys.ENTER);
+        customWait();
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        actions = new Actions(driver);
         actions.moveToElement(postTextButton).click().build().perform();
     }
 }
