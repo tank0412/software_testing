@@ -91,6 +91,7 @@ public class Main {
 
         //postText("Test");
         //postImage("D:/logoITMO_rus.png");
+        //postQuote("Главная проблема цитат в интернете в том, что люди сразу верят в их подлинность", "Джейсон Стейтем" );
 
     }
 
@@ -175,5 +176,16 @@ public class Main {
         //WebElement postPhotoButton = driver.findElement(By.xpath("//button[contains(.,'Опубликовать')]"));
         Actions actions = new Actions(driver);
         actions.moveToElement(postPhotoButton).click().build().perform();
+    }
+    static void postQuote(String quote, String author) {
+        WebElement postQuote= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_quote']");
+        postQuote.click();
+        WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Цитата
+        elTextBody.sendKeys(quote);
+        WebElement elTextheading = driver.findElement(By.cssSelector(".editor.editor-richtext"));
+        elTextheading.sendKeys(author);
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
     }
 }
