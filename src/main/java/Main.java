@@ -93,8 +93,28 @@ public class Main {
         //postImage("D:/logoITMO_rus.png");
         //postQuote("Главная проблема цитат в интернете в том, что люди сразу верят в их подлинность", "Джейсон Стейтем" );
         //postLink("google.ru");
-        
+        /*
+        postChat("деплоймент чат\n" +
+                "\n" +
+                "витя: коллеги, у нас на вечер запланирован релиз. нам нужно от вас ответственное лицо, чтобы кто-то мог нас подстраховать если что.\n" +
+                "Алексей Егоров: Если что?\n" +
+                "витя: если что-то пойдет не так.\n" +
+                "Алексей Егоров: Если что пойдёт не так?\n" +
+                "nikki: Коллеги, в самом деле, какого рода проблемы вы ожидаете? Релиз протестирован?\n" +
+                "витя: слушайте, протестирован. но если что-то будет с тестами, может потребоваться ваше содействие!\n" +
+                "Алексей Егоров: Если что будет с тестами?\n" +
+                "\n" +
+                "продакшн чат\n" +
+                "\n" +
+                "maxpatrol: отличный бот\n" +
+                "nikki: да\n" +
+                "zoppo2: мне кажется, они начнут догадываться, когда Алексей Егоров не явится на третий подряд корпоратив\n" +
+                "maxpatrol: сомневаюсь\n" +
+                "Cthuthu: не при нашей текучке кадров\n" +
+                "stty: да\n" +
+                "nikki: да");
 
+       */
     }
 
     static void postRegister() {
@@ -192,10 +212,21 @@ public class Main {
         actions.moveToElement(postTextButton).click().build().perform();
     }
     static void postLink(String url) {
-        WebElement postQuote= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_link']");
-        postQuote.click();
+        WebElement postLink= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_link']");
+        postLink.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         elTextBody.sendKeys(url);
+        customWait();
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
+    }
+    static void postChat(String chat) {
+        WebElement postChat = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_chat']");
+        postChat.click();
+        //WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
+        WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Текст поста']");
+        elTextBody.sendKeys(chat);
         customWait();
         WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
         Actions actions = new Actions(driver);
