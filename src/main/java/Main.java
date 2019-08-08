@@ -84,11 +84,16 @@ public class Main {
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
         postRegister();
         */ // To test postRegister after login
-        interractWithPost("http://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
-        followAccount("https://picsthatmakeyougohmm.tumblr.com/");
-        blockAccount("https://fireflysheart.tumblr.com/");
+
+        //interractWithPost("http://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
+        //followAccount("https://picsthatmakeyougohmm.tumblr.com/");
+        //blockAccount("https://fireflysheart.tumblr.com/");
+
+        //postText("Test");
+        //postImage("D:/logoITMO_rus.png");
 
     }
+
     static void postRegister() {
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
         WebElement elementHandMade = ((ChromeDriver) driver).findElementByXPath("//div[@data-name='handmade']");
@@ -148,6 +153,27 @@ public class Main {
         blogButton.click();
         WebElement blockButton =  driver.findElement(By.cssSelector(".tx-button.tx-button--tertiary.block-button"));
         blockButton.click(); // click like
-
+    }
+    static void postText(String test) {
+        WebElement postText = ((ChromeDriver) driver).findElementByXPath("//a[@data-post-endpoint='text']");
+        postText.click();
+        WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-richtext"));
+        elTextBody.sendKeys("Test");
+        WebElement elTextheading = driver.findElement(By.cssSelector(".editor.editor-plaintext"));
+        elTextheading.sendKeys("Test heading");
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
+    }
+    static void postImage(String imageUrl) {
+        WebElement postImagr = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_photo']"); //use another way to clck button
+        postImagr.click();
+        WebElement elPhotoUpload = ((ChromeDriver) driver).findElementByXPath("//input[@name='photo']");
+        elPhotoUpload.sendKeys(imageUrl);
+        customWait();
+        WebElement postPhotoButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        //WebElement postPhotoButton = driver.findElement(By.xpath("//button[contains(.,'Опубликовать')]"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postPhotoButton).click().build().perform();
     }
 }
