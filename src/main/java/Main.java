@@ -115,6 +115,7 @@ public class Main {
                 "nikki: да");
 
        */
+        //postMusic("Кукушка гагарина");
     }
 
     static void postRegister() {
@@ -227,6 +228,18 @@ public class Main {
         //WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Текст поста']");
         elTextBody.sendKeys(chat);
+        customWait();
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
+    }
+    static void postMusic(String musicName) {
+        WebElement postMusic = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_audio']");
+        postMusic.click();
+        WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Найдите песню или вставьте URL-адрес']");
+        elTextBody.sendKeys(musicName);
+        WebElement getMusicResult = driver.findElement(By.cssSelector(".result.audio-result"));
+        getMusicResult.click();
         customWait();
         WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
         Actions actions = new Actions(driver);
