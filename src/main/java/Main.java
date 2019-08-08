@@ -84,6 +84,9 @@ public class Main {
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
         postRegister();
         */ // To test postRegister after login
+        interractWithPost("http://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
+        followAccount("https://picsthatmakeyougohmm.tumblr.com/");
+        blockAccount("https://fireflysheart.tumblr.com/");
 
     }
     static void postRegister() {
@@ -101,5 +104,50 @@ public class Main {
         elementMusicians.click();
         WebElement nextButton = driver.findElement(By.className("onboarding-progress-button"));
         nextButton.click();
+    }
+    static void interractWithPost(String url) {
+        driver.get(url);
+        //driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+        driver.switchTo().frame("unified-controls");
+        WebElement likePost = driver.findElement(By.cssSelector(".tx-icon-button.like-button"));
+        likePost.click(); // click like
+        try {
+            WebElement reblogPost = driver.findElement(By.cssSelector(".tx-icon-button.reblog-button"));
+            reblogPost.click(); // click reblog
+        }
+        catch (ElementNotInteractableException exp) {
+            System.out.println("Exception proceded #4");
+            WebElement reblogPostAnother = ((ChromeDriver) driver).findElementByXPath("//a[@aria-label='Реблог']");
+            reblogPostAnother.click(); // call reblog
+        }
+        //WebElement congirmReblog = driver.findElement(By.xpath("//button[contains(.,'Реблог')]"));
+        //WebElement congirmReblog = driver.findElement(By.cssSelector(".post-form--save-button"));
+
+        WebElement congirmReblog = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        try {
+            congirmReblog.click(); // click confirm reblog
+        }
+        catch(ElementClickInterceptedException exp) {
+            System.out.println("Exception proceded #5");
+            Actions actions = new Actions(driver);
+            actions.moveToElement(congirmReblog).click().build().perform();
+        }
+    }
+    static void followAccount(String url) {
+        driver.get(url);
+        driver.switchTo().frame("unified-controls");
+        //WebElement followButton = driver.findElement(By.cssSelector(".tx-button.follow-button "));
+        WebElement followButton = driver.findElement(By.xpath("//button[contains(.,'Читать')]"));
+        followButton.click(); // click like
+    }
+    static void blockAccount(String url) {
+        driver.get(url);
+        driver.switchTo().frame("unified-controls");
+        //WebElement blockButton = driver.findElement(By.xpath("//button[contains(.,'Заблокировать')]"));
+        WebElement blogButton =  driver.findElement(By.cssSelector(".tx-icon-button.snowman-button.non-essential"));
+        blogButton.click();
+        WebElement blockButton =  driver.findElement(By.cssSelector(".tx-button.tx-button--tertiary.block-button"));
+        blockButton.click(); // click like
+
     }
 }
