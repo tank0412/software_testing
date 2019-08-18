@@ -79,5 +79,24 @@ class DatabaseTest {
         }
 
     }
+    @Test
+    public void testDBSelectRootWords() {
+        Database db = new Database();
+        Connection ourConnection = db.getConnection();
+        try {
+            Statement stmt  = ourConnection.createStatement();
+            String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + "лес" + "'" + "ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
+            ResultSet rootResults = stmt.executeQuery(sqlRootWords);
+            rootResults.next();
+                String word = db.checkIsNullColumn(rootResults.getString("BeforeRoot")) + db.checkIsNullColumn(rootResults.getString("Root")) + db.checkIsNullColumn(rootResults.getString("AfterRoot"));
+                if(word == "лес") {
+                    System.out.println("Test passed");
+                }
+
+        }
+        catch (SQLException exp) {
+            fail("We have SQLException " + exp);
+        }
+    }
 
 }
