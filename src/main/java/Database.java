@@ -87,7 +87,8 @@ public class Database {
 
     }
     String[] getRootWords(String word) {
-        String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary";
+        //String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
+        String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary;";
         String rootOfWord = null;
         String[] rootWord = new String[100]; // TODO: Fix constant size of array
         try {
@@ -99,7 +100,8 @@ public class Database {
                     rootOfWord = rs.getString("Root");
                 }
             }
-            String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + rootOfWord + "'" + ';' ;
+            //String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + rootOfWord + "'" + ';' ;
+            String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + rootOfWord + "'" + "ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
             stmt = dbConnection.createStatement();
             ResultSet rsRoot = stmt.executeQuery(sqlRootWords);
             int wordIndex = 0;
