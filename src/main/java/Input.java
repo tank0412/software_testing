@@ -15,13 +15,21 @@ public class Input {
         String input = scanner.nextLine();
         return input;
     }
+
     public static Boolean checkUserInput(String userInput) {
         Pattern pattern = Pattern.compile(
                 "[" +                   //начало списка допустимых символов
                         "а-яА-ЯёЁ" +    //буквы русского алфавита
+                        "a-zA" + // латинница
                         "]" +                   //конец списка допустимых символов
                         "*");
         Matcher matcher = pattern.matcher(userInput);
         return matcher.matches();
+    }
+    public static String requestWordForDB() {
+        System.out.println("Enter word in format: beforeRoot Root afterRoot USE spaces");
+        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
+        String input = scanner.nextLine();
+        return input;
     }
 }
