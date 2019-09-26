@@ -16,8 +16,9 @@ public class Main {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
         //register(); // When we do not have account
         login(); // When we have account
-        customWait();
         //driver.quit();
+        customWait();
+        afterTest();
         return;
     }
     static void customWait() {
@@ -79,21 +80,36 @@ public class Main {
         elPwd.sendKeys("l4oKDSxGulVY");
         WebElement finalLogButton = driver.findElement(By.id("signup_forms_submit"));
         finalLogButton.click();
+        try {
         /*
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
         postRegister();
         */ // To test postRegister after login
+            interractWithPost("http://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
 
-        //interractWithPost("http://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
-        //followAccount("https://picsthatmakeyougohmm.tumblr.com/");
-        //blockAccount("https://fireflysheart.tumblr.com/");
+            customWait();
+            driver.get("https://www.tumblr.com/dashboard");
+            postMusic("Кукушка гагарина");
+            customWait();
+            postVideo("https://youtu.be/Ra0ozaE-oy0");
+            customWait();
 
-        //postText("Test");
-        //postImage("D:/logoITMO_rus.png");
-        //postQuote("Главная проблема цитат в интернете в том, что люди сразу верят в их подлинность", "Джейсон Стейтем" );
-        //postLink("google.ru");
-        /*
+            followAccount("https://fireflysheart.tumblr.com/");
+            customWait();
+
+
+            blockAccount("https://fireflysheart.tumblr.com/");
+            driver.get("https://www.tumblr.com/dashboard");
+            customWait();
+            postText("Test");
+            customWait();
+            postImage("D:/logoITMO_rus.png");
+            customWait();
+            postQuote("Главная проблема цитат в интернете в том, что люди сразу верят в их подлинность", "Джейсон Стейтем" );
+            customWait();
+            postLink("google.ru");
+            customWait();
         postChat("деплоймент чат\n" +
                 "\n" +
                 "витя: коллеги, у нас на вечер запланирован релиз. нам нужно от вас ответственное лицо, чтобы кто-то мог нас подстраховать если что.\n" +
@@ -113,10 +129,10 @@ public class Main {
                 "Cthuthu: не при нашей текучке кадров\n" +
                 "stty: да\n" +
                 "nikki: да");
-
-       */
-        //postMusic("Кукушка гагарина");
-        postVideo("https://youtu.be/Ra0ozaE-oy0");
+        }
+        catch(UnhandledAlertException  e) {
+            //do nothing
+        }
     }
 
     static void postRegister() {
@@ -154,6 +170,7 @@ public class Main {
         //WebElement congirmReblog = driver.findElement(By.cssSelector(".post-form--save-button"));
 
         WebElement congirmReblog = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        customWait();
         try {
             congirmReblog.click(); // click confirm reblog
         }
@@ -259,5 +276,27 @@ public class Main {
         WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
         actions = new Actions(driver);
         actions.moveToElement(postTextButton).click().build().perform();
+    }
+    static void unfollowAccount(String url) {
+        driver.get(url);
+        driver.switchTo().frame("unified-controls");
+        //WebElement blockButton = driver.findElement(By.xpath("//button[contains(.,'Заблокировать')]"));
+        WebElement blogButton =  driver.findElement(By.cssSelector(".tx-icon-button.snowman-button.non-essential"));
+        blogButton.click();
+        WebElement blockButton =  driver.findElement(By.cssSelector(".tx-button.tx-button--tertiary.unfollow-button "));
+        blockButton.click(); // click like
+    }
+    static void unlikePost(String url) {
+        driver.get(url);
+        //driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+        driver.switchTo().frame("unified-controls");
+        WebElement likePost = driver.findElement(By.cssSelector(".tx-icon-button.unlike-button"));
+        likePost.click(); // click like
+    }
+    static void afterTest() {
+        customWait();
+        unfollowAccount("https://fireflysheart.tumblr.com/");
+        customWait();
+        unlikePost("https://komanda.tumblr.com/post/186855567115/%D0%BF%D1%80%D0%B8%D0%B2%D0%B5%D1%82-%D1%85%D0%BE%D1%80%D0%BE%D1%88%D0%B0%D1%8F-%D0%BD%D0%BE%D0%B2%D0%BE%D1%81%D1%82%D1%8C-%D1%82%D0%B5%D0%BF%D0%B5%D1%80%D1%8C-%D0%B2%D1%8B-%D0%BC%D0%BE%D0%B6%D0%B5%D1%82%D0%B5");
     }
 }
