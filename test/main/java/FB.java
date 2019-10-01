@@ -1,8 +1,11 @@
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.ListensToLogcatMessages;
 import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -11,12 +14,16 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static java.time.Duration.ofSeconds;
 
 public class FB {
 
@@ -31,8 +38,10 @@ public class FB {
 
        // desiredCapabilities.setCapability(MobileCapabilityType.APP, "D:\\facebook/Facebook+135.0.0.22.90.zip.apk");
         desiredCapabilities.setCapability(MobileCapabilityType.APP, "com.facebook.katana");
-        //desiredCapabilities.setCapability("appActivity", "com.facebook.katana.app.FacebookSplashScreenActivity");
-        desiredCapabilities.setCapability("appActivity", "com.facebook.katana.dbl.activity.FacebookLoginActivity");
+        //desiredCapabilities.setCapability("appActivity", "com.facebook.katana.app.FacebookSplashScreenActivity"); //first screen
+        //desiredCapabilities.setCapability("appActivity", "com.facebook.katana.dbl.activity.FacebookLoginActivity"); // for old FB version
+        desiredCapabilities.setCapability("appActivity", "com.facebook.account.login.activity.SimpleLoginActivity");
+
         desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         //desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
         desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "6.0");
@@ -48,9 +57,10 @@ public class FB {
     @Ignore
     @Test
     public void register() {
-        customWait();
-        driver.findElement(By.id("com.facebook.katana:id/login_create_account_button")).click();
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
+        customWait(10);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Create New Facebook Account\"]")).click();
+        customWait(10);
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.Button")).click();
         /*
         try {
             driver.findElement(By.id("com.android.packageinstaller:id/permission_allow_button")).click(); // It ask for permissions during first sign up only
@@ -61,36 +71,37 @@ public class FB {
         }
         */
 
-        MobileElement el1 = (MobileElement) driver.findElementById("com.facebook.katana:id/first_name_input");
+        //driver.findElementById("com.google.android.gms:id/cancel").click();
+
+
+        MobileElement el1 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
         el1.sendKeys("Ivan");
-        MobileElement el2 = (MobileElement) driver.findElementById("com.facebook.katana:id/last_name_input");
+        customWait(10);
+
+        MobileElement el2 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText");
         el2.sendKeys("Ivanov");
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        customWait(10);
+        TouchAction touchAction = new TouchAction(driver);
+        touchAction.longPress(PointOption.point(726, 490)).perform(); //or tap
+        customWait(5);
+        touchAction.longPress(PointOption.point(465, 492)).perform();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
 
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
-        driver.findElement(By.id("com.facebook.katana:id/button1")).click(); // Yes, we sure that birthday is Oct 1 2001
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RadioGroup/android.widget.RadioButton[2]")).click();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
 
-        driver.findElement(By.id("com.facebook.katana:id/gender_male")).click();
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.Button")).click();
 
-        driver.findElement(By.id("com.facebook.katana:id/switch_to_email_button")).click();
+        MobileElement emailInput = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Email Address\"]");
+        emailInput.sendKeys("adasddfeadmhffdhfh@yandex.com");
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
 
-        MobileElement emailInput = (MobileElement) driver.findElementById("com.facebook.katana:id/email_input");
-        emailInput.sendKeys("adasddfsadaffdhfh@yandex.com");
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
-
-        MobileElement pwInput = (MobileElement) driver.findElementById("com.facebook.katana:id/password_input");
+        MobileElement pwInput = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText");
         pwInput.sendKeys("TystusO4523");
-        driver.findElement(By.id("com.facebook.katana:id/finish_button")).click();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
 
-        driver.findElement(By.id("com.facebook.katana:id/finish_without_contacts")).click();
-
-        /*
-
-        driver.findElement(By.id("com.facebook.katana:id/button1")).click(); // confirm identity if something unusual
-
-        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Continue \"]")).click();
-        */ // Impossible because it will ask a phone
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Sign up without uploading my contacts\"]")).click();
 
 
 
@@ -100,18 +111,16 @@ public class FB {
 
     @Test
     public void login() {
-        customWait();
+        customWait(10);
 
-        MobileElement el1 = (MobileElement) driver.findElementById("com.facebook.katana:id/login_username");
+        MobileElement el1 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Username\"]");
         el1.sendKeys("romanivanov726@mail.ru");
-        MobileElement el2 = (MobileElement) driver.findElementById("com.facebook.katana:id/login_password");
+        MobileElement el2 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Password\"]");
         el2.sendKeys("romanIv0125");
 
-        driver.findElement(By.id("com.facebook.katana:id/login_login")).click();
-
-
-
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Login\"]")).click();
     }
+
 
 
     @After
@@ -120,9 +129,9 @@ public class FB {
         //driver.quit();
     }
 
-    void customWait() {
+    void customWait(int digit) {
         try {
-            Thread.sleep(10000);
+            Thread.sleep(digit * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
