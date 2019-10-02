@@ -69,11 +69,10 @@ public class Main {
                     "stty: да\n" +
                     "nikki: да");
         }
-        catch(UnhandledAlertException  e) {
-            //do nothing
+        catch(UnhandledAlertException e) {
+            System.out.println("Exception" + e);
         }
         afterTest(tumblrFunc);
-        return;
     }
 
     static void afterTest(TumblrFunc tumblrFunc) {

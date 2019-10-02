@@ -218,8 +218,8 @@ public class TumblrFunc {
         //WebElement blockButton = driver.findElement(By.xpath("//button[contains(.,'Заблокировать')]"));
         WebElement blogButton =  driver.findElement(By.cssSelector(".tx-icon-button.snowman-button.non-essential"));
         blogButton.click();
-        WebElement blockButton =  driver.findElement(By.cssSelector(".tx-button.tx-button--tertiary.unfollow-button "));
-        blockButton.click(); // click like
+        //WebElement blockButton =  driver.findElement(By.cssSelector(".tx-button.tx-button--tertiary.unfollow-button "));
+        //blockButton.click(); // click like
     }
     void unlikePost(String url) {
         driver.get(url);
