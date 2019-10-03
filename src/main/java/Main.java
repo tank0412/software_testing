@@ -15,14 +15,15 @@ public class Main implements Constants {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
         TumblrFunc tumblrFunc = new TumblrFunc(driver);
         TumblrPanel tumblrPanel = new TumblrPanel(driver);
-        //register(); // When we do not have account
-        tumblrFunc.login(); // When we have account
+        TumblrAuth tumblrAuth = new TumblrAuth(driver);
+        //tumblrAuth.register(); // When we do not have account
+        tumblrAuth.login(); // When we have account
         tumblrFunc.customWait();
         try {
         /*
         driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
-        postRegister();
+        tumblrAuth.postRegister();
         */ // To test postRegister after login
 
 
