@@ -364,7 +364,7 @@ public class TumblrFunc implements Constants {
         customWait();
         WebElement gifBtn= ((ChromeDriver) driver).findElementByCssSelector(".conversation-compose-plugin.conversation-compose-plugin--gif-search");
         gifBtn.click();
-        WebElement gifTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Цитата
+        WebElement gifTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext"));
         gifTextBody.sendKeys("gaming");
         customWait();
         WebElement gif = driver.findElement(By.cssSelector(".gif-search-result.gif-search-result--selectable")); //гифка
@@ -377,9 +377,14 @@ public class TumblrFunc implements Constants {
         imageBtn.sendKeys(imageUrl);
         customWait();
         sendBtn.click();
-        //customWait();
+        customWait();
 
-
+        WebElement stickersBtn = ((ChromeDriver) driver).findElementByCssSelector(".conversation-compose-plugin.conversation-compose-plugin--stickers");
+        stickersBtn.click();
+        WebElement sticker = driver.findElement(By.cssSelector(".messaging-stickers-result"));
+        sticker.click();
+        customWait();
+        sendBtn.click();
 
     }
 }
