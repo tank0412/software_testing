@@ -23,7 +23,7 @@ public class Main implements Constants {
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
         postRegister();
         */ // To test postRegister after login
-
+            
             tumblrFunc.interractWithPost(postInterractUrl);
 
             tumblrFunc.customWait();
@@ -39,9 +39,12 @@ public class Main implements Constants {
 
 
             tumblrFunc.testPostPanel();
+
             tumblrFunc.testAnotherPostPanel();
 
             tumblrFunc.followRecommendedBlog();
+            tumblrFunc.customWait();
+            tumblrFunc.followRadarBlog();
         }
         catch(UnhandledAlertException e) {
             System.out.println("Exception" + e);

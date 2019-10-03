@@ -313,4 +313,11 @@ public class TumblrFunc implements Constants {
         Actions actions = new Actions(driver);
         actions.moveToElement(blogLink).click().build().perform();
     }
+    void followRadarBlog() {
+        WebElement blogLink = ((ChromeDriver) driver).findElementByClassName("radar_avatar");
+        Actions actions = new Actions(driver);
+        actions.moveToElement(blogLink).click().build().perform();
+        WebElement followButton= ((ChromeDriver) driver).findElementByCssSelector(".chrome.follow");
+        actions.moveToElement(followButton).click().build().perform();
+    }
 }
