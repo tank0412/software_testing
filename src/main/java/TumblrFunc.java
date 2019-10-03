@@ -4,7 +4,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.concurrent.TimeUnit;
 
-public class TumblrFunc {
+public class TumblrFunc implements Constants {
     private WebDriver driver;
     public TumblrFunc(WebDriver testDriver) {
         driver = testDriver;
@@ -12,6 +12,13 @@ public class TumblrFunc {
     void customWait() {
         try {
             Thread.sleep(10000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+    void longCustomWait() {
+        try {
+            Thread.sleep(20000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -44,7 +51,7 @@ public class TumblrFunc {
             loginButton.click();
         }
         catch (StaleElementReferenceException exception) {
-            System.out.println("Exception proceded");
+            System.out.println("Exception proceded " + exception);
             WebElement loginButtonExp = driver.findElement(By.id("account_actions_login_and_register"));
             loginButtonExp.click();
         }
@@ -54,13 +61,13 @@ public class TumblrFunc {
             logWithpwd.click();
         }
         catch (ElementClickInterceptedException exception) {
-            System.out.println("Exception proceded #2");
+            System.out.println("Exception proceded #2 " + exception);
             try {
                 WebElement loginButtonExp = driver.findElement(By.cssSelector(".account_actions_login_and_register.chrome"));
                 loginButtonExp.click();
             }
             catch (NoSuchElementException exp) {
-                System.out.println("Exception proceded #3");
+                System.out.println("Exception proceded #3 " + exp);
                 logWithpwd.click();
             }
         }
@@ -132,8 +139,6 @@ public class TumblrFunc {
         blockButton.click(); // click like
     }
     void postText(String test) {
-        WebElement postText = ((ChromeDriver) driver).findElementByXPath("//a[@data-post-endpoint='text']");
-        postText.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-richtext"));
         elTextBody.sendKeys("Test");
         WebElement elTextheading = driver.findElement(By.cssSelector(".editor.editor-plaintext"));
@@ -143,15 +148,11 @@ public class TumblrFunc {
         actions.moveToElement(postTextButton).click().build().perform();
     }
     void postImage(String imageUrl) {
-        WebElement postImagr = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_photo']"); //use another way to clck button
-        postImagr.click();
         WebElement elPhotoUpload = ((ChromeDriver) driver).findElementByXPath("//input[@name='photo']");
         elPhotoUpload.sendKeys(imageUrl);
         pressCreatePostButton();
     }
     void postQuote(String quote, String author) {
-        WebElement postQuote= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_quote']");
-        postQuote.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Цитата
         elTextBody.sendKeys(quote);
 
@@ -162,23 +163,17 @@ public class TumblrFunc {
         actions.moveToElement(postTextButton).click().build().perform();
     }
     void postLink(String url) {
-        WebElement postLink= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_link']");
-        postLink.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         elTextBody.sendKeys(url);
         pressCreatePostButton();
     }
     void postChat(String chat) {
-        WebElement postChat = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_chat']");
-        postChat.click();
         //WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Текст поста']");
         elTextBody.sendKeys(chat);
         pressCreatePostButton();
     }
     void postMusic(String musicName) {
-        WebElement postMusic = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_audio']");
-        postMusic.click();
         WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Найдите песню или вставьте URL-адрес']");
         elTextBody.sendKeys(musicName);
         WebElement getMusicResult = driver.findElement(By.cssSelector(".result.audio-result"));
@@ -186,8 +181,6 @@ public class TumblrFunc {
         pressCreatePostButton();
     }
     void postVideo(String videoUrl) {
-        WebElement postVideo = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_video']");
-        postVideo.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".split-cell.media-url-button"));
         Actions actions = new Actions(driver);
         actions.moveToElement(elTextBody).click().build().perform();
@@ -220,5 +213,98 @@ public class TumblrFunc {
         WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
         Actions actions = new Actions(driver);
         actions.moveToElement(postTextButton).click().build().perform();
+    }
+    void testPostPanel() {
+        WebElement postMusic = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_audio']");
+        postMusic.click();
+        postMusic(songName);
+        customWait();
+        WebElement postText = ((ChromeDriver) driver).findElementByXPath("//a[@data-post-endpoint='text']");
+        postText.click();
+        postText(text);
+        customWait();
+        WebElement postImage = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_photo']"); //use another way to clck button
+        postImage.click();
+        postImage(imageUrl);
+        customWait();
+        WebElement postQuote= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_quote']");
+        postQuote.click();
+        postQuote(quoteText, quoteAuthor);
+        longCustomWait();
+        WebElement postVideo = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_video']");
+        postVideo.click();
+        postVideo(videoUrl);
+        customWait();
+        WebElement postChat = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_chat']");
+        postChat.click();
+        postChat(chat);
+        customWait();
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+        WebElement postLink = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_link']");
+        postLink.click();
+        postLink(postUrl);
+        customWait();
+
+    }
+    void testAnotherPostPanel() {
+        composeBtnClck();
+        WebElement postText = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='text']");
+        postText.click();
+        postText(text);
+        customWait();
+        composeBtnClck();
+        WebElement postPhoto = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='photo']");
+        postPhoto.click();
+        postImage(imageUrl);
+        customWait();
+        composeBtnClck();
+        WebElement postQuote = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='quote']");
+        postQuote.click();
+        postQuote(quoteText, quoteAuthor);
+        customWait();
+        composeBtnClck();
+        WebElement postVideo = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='video']");
+        postVideo.click();
+        postVideo(videoUrl);
+        customWait();
+        deleteFirstPost();
+        customWait();
+        driver.get(tumblrDashboardUrl);
+        customWait();
+        composeBtnClck();
+        WebElement postChat = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='chat']");
+        postChat.click();
+        postChat(chat);
+        customWait();
+        ((JavascriptExecutor) driver).executeScript("window.scrollTo(document.body.scrollHeight, 0)");
+        composeBtnClck();
+        WebElement postAudio = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='audio']");
+        postAudio.click();
+        postMusic(songName);
+        customWait();
+        deleteFirstPost();
+        customWait();
+        driver.get(tumblrDashboardUrl);
+        customWait();
+        composeBtnClck();
+        WebElement postLink = ((ChromeDriver) driver).findElementByXPath("//div[@data-post-type='link']");
+        postLink.click();
+        postLink(postUrl);
+        customWait();
+
+    }
+    void composeBtnClck() {
+        WebElement postbtn = driver.findElement(By.className("compose-button"));
+        postbtn.click();
+    }
+    void deleteFirstPost() {
+        WebElement postSettings = driver.findElement(By.cssSelector(".post_control.post-control-icon.post_control_menu.creator"));
+        postSettings.click();
+        WebElement postdelete = driver.findElement(By.cssSelector(".post_control.delete.show_label"));
+        postdelete.click();
+        WebElement okButton= ((ChromeDriver) driver).findElementByXPath("//button[@data-btn-id='1']");
+        //okButton.click();
+        JavascriptExecutor executor = (JavascriptExecutor) driver;
+        executor.executeScript("arguments[0].click();", okButton);
     }
 }
