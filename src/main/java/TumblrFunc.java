@@ -341,4 +341,36 @@ public class TumblrFunc implements Constants {
             actions.moveToElement(congirmReblog).click().build().perform();
         }
     }
+    void sendNewMessage() {
+        WebElement msgbtn = driver.findElement(By.id("messaging_button"));
+        msgbtn.click();
+        WebElement msgmenu = driver.findElement(By.cssSelector(".compose-toggle.compose-start"));
+        msgmenu.click();
+        WebElement receiver = driver.findElement(By.className("input"));
+        receiver.sendKeys("tank0412");
+        customWait();
+        receiver.sendKeys(Keys.ENTER);
+        customWait();
+        WebElement msgText = driver.findElement(By.className("text-input"));
+        msgText.sendKeys("Hello");
+        WebElement sendBtn= ((ChromeDriver) driver).findElementByXPath("//button[@type='submit']");
+        sendBtn.click();
+
+        customWait();
+        WebElement gifBtn= ((ChromeDriver) driver).findElementByCssSelector(".conversation-compose-plugin.conversation-compose-plugin--gif-search");
+        gifBtn.click();
+        WebElement gifTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Цитата
+        gifTextBody.sendKeys("gaming");
+        customWait();
+        WebElement gif = driver.findElement(By.cssSelector(".gif-search-result.gif-search-result--selectable")); //гифка
+        gif.click();
+
+        customWait();
+        WebElement imageBtn= ((ChromeDriver) driver).findElementByXPath("//input[@name='messaging-photo']");
+        imageBtn.sendKeys(imageUrl);
+        //customWait();
+
+
+
+    }
 }

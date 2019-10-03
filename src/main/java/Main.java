@@ -42,13 +42,18 @@ public class Main implements Constants {
 
             tumblrFunc.testAnotherPostPanel();
 
+
             tumblrFunc.followRecommendedBlog();
             tumblrFunc.customWait();
             tumblrFunc.followRadarBlog();
             tumblrFunc.customWait();
+
             driver.get(tumblrDashboardUrl);
             tumblrFunc.customWait();
             tumblrFunc.searchAndLikeAndReblog();
+
+            tumblrFunc.customWait();
+            tumblrFunc.sendNewMessage();
         }
         catch(UnhandledAlertException e) {
             System.out.println("Exception" + e);
