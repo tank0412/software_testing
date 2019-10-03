@@ -318,7 +318,12 @@ public class TumblrFunc implements Constants {
         Actions actions = new Actions(driver);
         actions.moveToElement(blogLink).click().build().perform();
         WebElement followButton= ((ChromeDriver) driver).findElementByCssSelector(".chrome.follow");
-        actions.moveToElement(followButton).click().build().perform();
+        try {
+            actions.moveToElement(followButton).click().build().perform();
+        }
+        catch(JavascriptException exp) {// if we have already followed this radar blog
+            System.out.println("We have an exception " + exp);
+        }
     }
 
     void searchAndLikeAndReblog() {

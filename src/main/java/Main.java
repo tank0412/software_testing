@@ -24,7 +24,7 @@ public class Main implements Constants {
         postRegister();
         */ // To test postRegister after login
 
-            
+
             tumblrFunc.interractWithPost(postInterractUrl);
 
             tumblrFunc.customWait();
