@@ -364,10 +364,14 @@ public class TumblrFunc implements Constants {
         customWait();
         WebElement gif = driver.findElement(By.cssSelector(".gif-search-result.gif-search-result--selectable")); //гифка
         gif.click();
+        customWait();
+        sendBtn.click();
 
         customWait();
         WebElement imageBtn= ((ChromeDriver) driver).findElementByXPath("//input[@name='messaging-photo']");
         imageBtn.sendKeys(imageUrl);
+        customWait();
+        sendBtn.click();
         //customWait();
 
 

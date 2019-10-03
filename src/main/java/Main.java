@@ -23,6 +23,7 @@ public class Main implements Constants {
         driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
         postRegister();
         */ // To test postRegister after login
+
             
             tumblrFunc.interractWithPost(postInterractUrl);
 
