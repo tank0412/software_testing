@@ -320,4 +320,25 @@ public class TumblrFunc implements Constants {
         WebElement followButton= ((ChromeDriver) driver).findElementByCssSelector(".chrome.follow");
         actions.moveToElement(followButton).click().build().perform();
     }
+
+    void searchAndLikeAndReblog() {
+        WebElement search = ((ChromeDriver) driver).findElementByCssSelector(".search_query.popover_button");
+        search.sendKeys("gaming");
+        search.sendKeys(Keys.ENTER);
+        WebElement likeFirstPost = ((ChromeDriver) driver).findElementByCssSelector(".post_control.post-control-icon.like");
+        Actions actions = new Actions(driver);
+        actions.moveToElement(likeFirstPost).click().build().perform();
+        WebElement reblogFirstPost= ((ChromeDriver) driver).findElementByXPath("//a[@title='Реблог']");
+        actions.moveToElement(reblogFirstPost).click().build().perform();
+        WebElement congirmReblog = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        customWait();
+        try {
+            congirmReblog.click(); // click confirm reblog
+        }
+        catch(ElementClickInterceptedException exp) {
+            System.out.println("Exception proceded #6 " + exp);
+            customWait();
+            actions.moveToElement(congirmReblog).click().build().perform();
+        }
+    }
 }
