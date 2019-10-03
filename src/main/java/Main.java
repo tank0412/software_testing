@@ -14,6 +14,7 @@ public class Main implements Constants {
         driver.get(tumblrUrl);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
         TumblrFunc tumblrFunc = new TumblrFunc(driver);
+        TumblrPanel tumblrPanel = new TumblrPanel(driver);
         //register(); // When we do not have account
         tumblrFunc.login(); // When we have account
         tumblrFunc.customWait();
@@ -39,9 +40,9 @@ public class Main implements Constants {
             tumblrFunc.customWait();
 
 
-            tumblrFunc.testPostPanel();
+            tumblrPanel.testPostPanel();
 
-            tumblrFunc.testAnotherPostPanel();
+            tumblrPanel.testAnotherPostPanel();
 
 
             tumblrFunc.followRecommendedBlog();
