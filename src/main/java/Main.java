@@ -39,8 +39,9 @@ public class Main implements Constants {
 
 
             tumblrFunc.testPostPanel();
-
             tumblrFunc.testAnotherPostPanel();
+
+            tumblrFunc.followRecommendedBlog();
         }
         catch(UnhandledAlertException e) {
             System.out.println("Exception" + e);

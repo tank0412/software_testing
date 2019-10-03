@@ -307,4 +307,10 @@ public class TumblrFunc implements Constants {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", okButton);
     }
+    void followRecommendedBlog() {
+        WebElement blogLink = ((ChromeDriver) driver).findElementByXPath("//a[@title='Читать']");
+        //blogLink.click();
+        Actions actions = new Actions(driver);
+        actions.moveToElement(blogLink).click().build().perform();
+    }
 }
