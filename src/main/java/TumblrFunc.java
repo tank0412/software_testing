@@ -147,11 +147,7 @@ public class TumblrFunc {
         postImagr.click();
         WebElement elPhotoUpload = ((ChromeDriver) driver).findElementByXPath("//input[@name='photo']");
         elPhotoUpload.sendKeys(imageUrl);
-        customWait();
-        WebElement postPhotoButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
-        //WebElement postPhotoButton = driver.findElement(By.xpath("//button[contains(.,'Опубликовать')]"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(postPhotoButton).click().build().perform();
+        pressCreatePostButton();
     }
     void postQuote(String quote, String author) {
         WebElement postQuote= ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_quote']");
@@ -170,10 +166,7 @@ public class TumblrFunc {
         postLink.click();
         WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         elTextBody.sendKeys(url);
-        customWait();
-        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(postTextButton).click().build().perform();
+        pressCreatePostButton();
     }
     void postChat(String chat) {
         WebElement postChat = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_chat']");
@@ -181,10 +174,7 @@ public class TumblrFunc {
         //WebElement elTextBody = driver.findElement(By.cssSelector(".editor.editor-plaintext")); //Ссылка
         WebElement elTextBody = ((ChromeDriver) driver).findElementByXPath("//div[@aria-label='Текст поста']");
         elTextBody.sendKeys(chat);
-        customWait();
-        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(postTextButton).click().build().perform();
+        pressCreatePostButton();
     }
     void postMusic(String musicName) {
         WebElement postMusic = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_audio']");
@@ -193,10 +183,7 @@ public class TumblrFunc {
         elTextBody.sendKeys(musicName);
         WebElement getMusicResult = driver.findElement(By.cssSelector(".result.audio-result"));
         getMusicResult.click();
-        customWait();
-        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
-        Actions actions = new Actions(driver);
-        actions.moveToElement(postTextButton).click().build().perform();
+        pressCreatePostButton();
     }
     void postVideo(String videoUrl) {
         WebElement postVideo = ((ChromeDriver) driver).findElementByXPath("//a[@id='new_post_label_video']");
@@ -227,5 +214,11 @@ public class TumblrFunc {
         driver.switchTo().frame("unified-controls");
         WebElement likePost = driver.findElement(By.cssSelector(".tx-icon-button.unlike-button"));
         likePost.click(); // click like
+    }
+    void pressCreatePostButton() {
+        customWait();
+        WebElement postTextButton = driver.findElement(By.cssSelector(".button-area.create_post_button"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(postTextButton).click().build().perform();
     }
 }
