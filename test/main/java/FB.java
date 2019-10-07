@@ -187,6 +187,20 @@ public class FB {
         callAndroidBackButton(6);
     }
 
+    @Test
+    public void events() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Events\"]")).click();
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Tomorrow\"]")).click();
+        customWait(2);
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup")).click();
+        customWait(2);
+        callFBBackButton(2);
+    }
 
     @After
     public void tearDown() {
