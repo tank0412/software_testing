@@ -138,8 +138,9 @@ public class FB {
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See results for roman bukhtiarov\"]")).click();
         driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Add friend request\"])[1]")).click();
 
-        callBackButton(3);
+        callFBBackButton(3);
     }
+
     @Test
     public void enterGroup() {
         customWait(5);
@@ -162,11 +163,29 @@ public class FB {
         customWait(2);
         //get ask group join menu
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Join Group\"]")).click();
-        callBackButton(3);
+        callFBBackButton(3);
     }
 
-
-
+    @Test
+    public void videos() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Videos on Watch\"]")).click();
+        customWait(2);
+        MobileElement searchVideo = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText");
+        searchVideo.sendKeys("ITMO UNIVERSITY" +"\n");
+        customWait(5);
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup")).click();
+        customWait(4);
+        driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); //Click video
+        driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); // enter menu
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Save video, Add this to your saved videos.\"]/android.widget.TextView[1]")).click();
+        customWait(1);
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[2]/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[2]")).click();
+        callAndroidBackButton(6);
+    }
 
 
     @After
@@ -182,10 +201,16 @@ public class FB {
             e.printStackTrace();
         }
     }
-    void callBackButton(int times) {
+    void callFBBackButton(int times) {
         customWait(2);
         for(int i = 0; i < times; ++i) {
             driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Back\"]")).click(); //exit
+        }
+    }
+    void callAndroidBackButton(int times) {
+        customWait(2);
+        for(int i = 0; i < times; ++i) {
+            driver.pressKey(new KeyEvent(AndroidKey.BACK)); //exit
         }
     }
 }
