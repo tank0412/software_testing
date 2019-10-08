@@ -107,7 +107,7 @@ public class FB {
         driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Sign up without uploading my contacts\"]")).click();
 
     }
-    
+
     @Test
     public void login() {
         customWait(10);
@@ -220,6 +220,41 @@ public class FB {
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.Button[2]/android.widget.TextView\n")).click();
         customWait(1);
         callAndroidBackButton(2);
+    }
+
+    @Test
+    public void gaming() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Gaming\"]")).click();
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Follow Games\"]")).click();
+        customWait(2);
+        //follow first game from list
+        driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Add\"])[1]")).click();
+        customWait(2);
+        callFBBackButton(1);
+        customWait(2);
+
+        //enter game streamers menu
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Streamers\"]")).click();
+        customWait(2);
+        //follow first streamer from list
+        driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
+        customWait(2);
+        callFBBackButton(1);
+        customWait(2);
+
+        //enter "You" menu
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"You\"]")).click();
+        customWait(4);
+        //follow first suggested streamer from list
+        driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
+        customWait(2);
+        callFBBackButton(2);
+
     }
 
     @After
