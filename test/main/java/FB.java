@@ -107,7 +107,7 @@ public class FB {
         driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Sign up without uploading my contacts\"]")).click();
 
     }
-    
+
     @Test
     public void login() {
         customWait(10);
@@ -256,7 +256,7 @@ public class FB {
         callFBBackButton(2);
 
     }
-
+    
     @Test
     public void jobs() {
         customWait(5);
@@ -285,6 +285,25 @@ public class FB {
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.Button[2]/android.widget.TextView")).click();
         customWait(2);
         callFBBackButton(2);
+    }
+
+    @Test
+    public void messangerInstall() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Install Messenger\"]")).click();
+        customWait(4);
+        //click install button in Google Play
+        driver.findElement(By.id("com.android.vending:id/right_button")).click();
+        customWait(2);
+        //click cancel to not wait
+        driver.findElement(By.id("com.android.vending:id/left_button")).click();
+        customWait(2);
+        callAndroidBackButton(1);
+        customWait(2);
+        callFBBackButton(1);
     }
 
     @After
