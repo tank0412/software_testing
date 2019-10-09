@@ -1,6 +1,5 @@
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +10,7 @@ public class Main implements Constants {
         System.setProperty("webdriver.chrome.driver", "/chromedriver_win32/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize() ;
-        driver.get(tumblrUrl);
+        driver.get(TUMBLRURL);
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS) ;
         TumblrFunc tumblrFunc = new TumblrFunc(driver);
         TumblrPanel tumblrPanel = new TumblrPanel(driver);
@@ -27,17 +26,17 @@ public class Main implements Constants {
         */ // To test postRegister after login
 
 
-            tumblrFunc.interractWithPost(postInterractUrl);
+            tumblrFunc.interractWithPost(POSTINTERRACTURL);
 
             tumblrFunc.customWait();
-            driver.get(tumblrDashboardUrl);
+            driver.get(TUMBLRDASHBOARDURL);
 
-            tumblrFunc.followAccount(followAccountUrl);
+            tumblrFunc.followAccount(FOLLOWACCOUNTURL);
             tumblrFunc.customWait();
 
 
-            tumblrFunc.blockAccount(followAccountUrl);
-            driver.get(tumblrDashboardUrl);
+            tumblrFunc.blockAccount(FOLLOWACCOUNTURL);
+            driver.get(TUMBLRDASHBOARDURL);
             tumblrFunc.customWait();
 
 
@@ -51,7 +50,7 @@ public class Main implements Constants {
             tumblrFunc.followRadarBlog();
             tumblrFunc.customWait();
 
-            driver.get(tumblrDashboardUrl);
+            driver.get(TUMBLRDASHBOARDURL);
             tumblrFunc.customWait();
             tumblrFunc.searchAndLikeAndReblog();
 
@@ -59,15 +58,15 @@ public class Main implements Constants {
             tumblrFunc.sendNewMessage();
         }
         catch(UnhandledAlertException e) {
-            System.out.println("Exception" + e);
+            System.out.println("Exception" + e.getMessage());
         }
         afterTest(tumblrFunc);
     }
 
     static void afterTest(TumblrFunc tumblrFunc) {
         tumblrFunc.customWait();
-        tumblrFunc.unfollowAccount(followAccountUrl);
+        tumblrFunc.unfollowAccount(FOLLOWACCOUNTURL);
         tumblrFunc.customWait();
-        tumblrFunc.unlikePost(postInterractUrl);
+        tumblrFunc.unlikePost(POSTINTERRACTURL);
     }
 }

@@ -15,11 +15,11 @@ public class TumblrAuth {
         registerButton.click();
         //((ChromeDriver) driver).findElementByXPath("//span[contains(.,'Зарегистрироваться')]").click();
         WebElement elEmail = driver.findElement(By.id("signup_email"));
-        elEmail.sendKeys("asdmasdlasd@yandex.com");
+        elEmail.sendKeys("asdmasdlqsd@yandex.com");
         WebElement elPwd = driver.findElement(By.id("signup_password"));
         elPwd.sendKeys("BlnSNs@1398");
         WebElement elNick = driver.findElement(By.id("signup_username"));
-        elNick.sendKeys("testlmspor"); //Test89456
+        elNick.sendKeys("testlqspor"); //Test89456
         registerButton.click();
         WebElement elAge = driver.findElement(By.id("signup_age"));
         elAge.sendKeys("18");

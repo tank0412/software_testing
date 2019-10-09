@@ -2,8 +2,6 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.interactions.Actions;
 
-import java.util.concurrent.TimeUnit;
-
 public class TumblrFunc implements Constants {
     private WebDriver driver;
     public TumblrFunc(WebDriver testDriver) {
@@ -147,7 +145,7 @@ public class TumblrFunc implements Constants {
 
         customWait();
         WebElement imageBtn= ((ChromeDriver) driver).findElementByXPath("//input[@name='messaging-photo']");
-        imageBtn.sendKeys(imageUrl);
+        imageBtn.sendKeys(IMAGEURL);
         customWait();
         sendBtn.click();
         customWait();
