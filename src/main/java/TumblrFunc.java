@@ -158,4 +158,31 @@ public class TumblrFunc implements Constants {
         sendBtn.click();
 
     }
+    void runPartOne() {
+        interractWithPost(POSTINTERRACTURL);
+
+        customWait();
+        driver.get(TUMBLRDASHBOARDURL);
+
+        followAccount(FOLLOWACCOUNTURL);
+        customWait();
+
+
+        blockAccount(FOLLOWACCOUNTURL);
+        driver.get(TUMBLRDASHBOARDURL);
+        customWait();
+    }
+    void runPartTwo() {
+        followRecommendedBlog();
+        customWait();
+        followRadarBlog();
+        customWait();
+
+        driver.get(TUMBLRDASHBOARDURL);
+        customWait();
+        searchAndLikeAndReblog();
+
+        customWait();
+        sendNewMessage();
+    }
 }

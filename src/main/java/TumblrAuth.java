@@ -80,4 +80,10 @@ public class TumblrAuth {
         WebElement nextButton = driver.findElement(By.className("onboarding-progress-button"));
         nextButton.click();
     }
+
+    void runPostRegister() {
+        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
+        driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
+        postRegister();
+    }
 }

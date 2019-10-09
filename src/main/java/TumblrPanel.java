@@ -169,4 +169,10 @@ public class TumblrPanel implements Constants {
         JavascriptExecutor executor = (JavascriptExecutor) driver;
         executor.executeScript("arguments[0].click();", okButton);
     }
+
+    void run() {
+        testPostPanel();
+
+        testAnotherPostPanel();
+    }
 }

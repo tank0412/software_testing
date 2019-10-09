@@ -6,7 +6,6 @@ import java.util.concurrent.TimeUnit;
 public class Main implements Constants {
     private static WebDriver driver;
     public static void main(String[] args) {
-        System.out.println("Hello World, Lab1!");
         System.setProperty("webdriver.chrome.driver", "/chromedriver_win32/chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().window().maximize() ;
@@ -19,43 +18,10 @@ public class Main implements Constants {
         tumblrAuth.login(); // When we have account
         tumblrFunc.customWait();
         try {
-        /*
-        driver.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS) ;
-        driver.get("http://www.tumblr.com/getting_to_know_tumblr/");
-        tumblrAuth.postRegister();
-        */ // To test postRegister after login
-
-
-            tumblrFunc.interractWithPost(POSTINTERRACTURL);
-
-            tumblrFunc.customWait();
-            driver.get(TUMBLRDASHBOARDURL);
-
-            tumblrFunc.followAccount(FOLLOWACCOUNTURL);
-            tumblrFunc.customWait();
-
-
-            tumblrFunc.blockAccount(FOLLOWACCOUNTURL);
-            driver.get(TUMBLRDASHBOARDURL);
-            tumblrFunc.customWait();
-
-
-            tumblrPanel.testPostPanel();
-
-            tumblrPanel.testAnotherPostPanel();
-
-
-            tumblrFunc.followRecommendedBlog();
-            tumblrFunc.customWait();
-            tumblrFunc.followRadarBlog();
-            tumblrFunc.customWait();
-
-            driver.get(TUMBLRDASHBOARDURL);
-            tumblrFunc.customWait();
-            tumblrFunc.searchAndLikeAndReblog();
-
-            tumblrFunc.customWait();
-            tumblrFunc.sendNewMessage();
+          //tumblrAuth.runPostRegister(); // To test postRegister after login
+            tumblrFunc.runPartOne();
+            tumblrPanel.run();
+            tumblrFunc.runPartTwo();
         }
         catch(UnhandledAlertException e) {
             System.out.println("Exception" + e.getMessage());
