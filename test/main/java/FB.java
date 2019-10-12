@@ -256,7 +256,7 @@ public class FB {
         callFBBackButton(2);
 
     }
-    
+
     @Test
     public void jobs() {
         customWait(5);
@@ -305,6 +305,70 @@ public class FB {
         customWait(2);
         callFBBackButton(1);
     }
+
+    @Test
+    public void cityGuides() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(5);
+        //click see more button
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See More, Header. Section is collapsed. Double-tap to expand the section.\"]")).click();
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
+        customWait(2);
+        //click Saint Petersburg button
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.HorizontalScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup")).click();
+        customWait(4);
+        //press like button for city
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Like\"]/android.view.ViewGroup")).click();
+        customWait(2);
+
+        //make check-in
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Check In\"]/android.view.ViewGroup")).click();
+        customWait(2);
+        //write check in post
+        MobileElement checkInPost = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.EditText");
+        checkInPost.sendKeys("Saint Petersburg is an awesome city!");
+        customWait(5);
+        //click post button
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"POST\"]")).click();
+        customWait(2);
+
+        //share a city
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Share\"]/android.view.ViewGroup")).click();
+        customWait(2);
+        //enter Feeling/Activity/Sticker menu
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Feeling/Activity/Sticker\"]")).click();
+        customWait(2);
+        //enter sticker menu
+        driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Stickers, Tab 2 of 3\"]")).click();
+        customWait(2);
+        //choose happy sticker
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/androidx.viewpager.widget.ViewPager/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.viewpager.widget.ViewPager/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.GridView/android.widget.LinearLayout[1]/android.widget.TextView")).click();
+        customWait(2);
+        //choose a last happy sticker in a list
+        driver.findElement(By.xpath("//android.widget.RelativeLayout[@content-desc=\"Sticker 23 of 23\"]/android.widget.ImageView")).click();
+        customWait(2);
+        MobileElement shareCityPost = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout[2]/android.widget.FrameLayout/android.widget.EditText");
+        shareCityPost.sendKeys("What a beautiful city!");
+        customWait(5);
+        //click post button
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"POST\"]")).click();
+        customWait(2);
+
+        //save a city
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Save\"]/android.view.ViewGroup")).click();
+        customWait(2);
+
+        //save a first restaurant from a list
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[3]/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.widget.Button/android.view.ViewGroup[4]/android.widget.ImageView")).click();
+        customWait(2);
+
+        callFBBackButton(2);
+    }
+
+
 
     @After
     public void tearDown() {
