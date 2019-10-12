@@ -108,6 +108,7 @@ public class FB {
 
     }
 
+
     @Test
     public void login() {
         customWait(10);
@@ -423,6 +424,21 @@ public class FB {
         customWait(2);
         callAndroidBackButton(1);
 
+    }
+
+    @Test
+    public void logOut() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        customWait(2);
+        //click log out button
+        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\""+"Log Out, Button 1 of 1"+"\").instance(0))").click();
+        customWait(2);
+        /*
+        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Log Out\")").click();
+        customWait(2);
+        */
     }
 
     public void seeMoreBtn() {
