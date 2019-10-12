@@ -367,7 +367,7 @@ public class FB {
     }
 
     @Test
-    public void FundRaisers() {
+    public void fundRaisers() {
         customWait(5);
         driver.findElement(MobileBy.AndroidUIAutomator(
                 "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
@@ -396,6 +396,33 @@ public class FB {
         customWait(2);
 
         callFBBackButton(2);
+    }
+
+    @Test
+    public void liveVideos() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        seeMoreBtn();
+        customWait(5);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Live Videos\"]")).click();
+        customWait(4);
+        //like and follow on first post
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"follow"+"\").instance(0)").click();
+        customWait(2);
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"like"+"\").instance(0)").click();
+        //click share button
+        customWait(2);
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"share"+"\").instance(0)").click();
+        customWait(2);
+        //write post during sharing
+        MobileElement shareVideoPost = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText");
+        shareVideoPost.sendKeys("Not bad");
+        customWait(5);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"SHARE NOW\"]")).click();
+        customWait(2);
+        callAndroidBackButton(1);
+
     }
 
     public void seeMoreBtn() {
