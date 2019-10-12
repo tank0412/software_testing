@@ -311,9 +311,7 @@ public class FB {
         customWait(5);
         driver.findElement(MobileBy.AndroidUIAutomator(
                 "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(5);
-        //click see more button
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See More, Header. Section is collapsed. Double-tap to expand the section.\"]")).click();
+        seeMoreBtn();
         customWait(2);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
         customWait(2);
@@ -366,6 +364,44 @@ public class FB {
         customWait(2);
 
         callFBBackButton(2);
+    }
+
+    @Test
+    public void FundRaisers() {
+        customWait(5);
+        driver.findElement(MobileBy.AndroidUIAutomator(
+                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
+        seeMoreBtn();
+        customWait(5);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Fundraisers\"]")).click();
+        customWait(2);
+
+        //scroll to first fundraiser
+        //String scrollTo= "/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.view.ViewGroup/android.widget.Button";
+        String scrollTo = "raised of";
+        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().textContains(\""+scrollTo+"\").instance(0))").click();
+        customWait(2);
+        //click share
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"SHARE\"]")).click();
+        customWait(2);
+        //share it as post
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Share as Post Share fundraiser in Feed\"]")).click();
+        customWait(2);
+        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"POST\"]")).click();
+        customWait(2);
+        //close share menu
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Close\"]/android.view.ViewGroup")).click();
+        customWait(2);
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Follow\"]")).click();
+        customWait(2);
+
+        callFBBackButton(2);
+    }
+
+    public void seeMoreBtn() {
+        customWait(5);
+        //click see more button
+        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See More, Header. Section is collapsed. Double-tap to expand the section.\"]")).click();
     }
 
 
