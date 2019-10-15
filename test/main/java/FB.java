@@ -1,3 +1,4 @@
+package main.java;
 import io.appium.java_client.MobileBy;
 import io.appium.java_client.MobileDriver;
 import io.appium.java_client.MobileElement;
@@ -9,10 +10,7 @@ import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
@@ -30,15 +28,19 @@ import static java.time.Duration.ofSeconds;
 
 public class FB {
 
-    private AndroidDriver driver;
+    private static AndroidDriver driver;
+    private static boolean setUpIsDone = false;
+    private static boolean notLastTest = true;
 
     @Before
     public void setUp() throws MalformedURLException {
+        if(setUpIsDone) {
+            return;
+        }
        DesiredCapabilities desiredCapabilities = new DesiredCapabilities();
 
 
-        desiredCapabilities.setCapability( MobileCapabilityType.DEVICE_NAME, " 192.168.51.101:5555");
-
+        desiredCapabilities.setCapability( MobileCapabilityType.DEVICE_NAME, "192.168.51.101:5555"); //emulator
        // desiredCapabilities.setCapability(MobileCapabilityType.APP, "D:\\facebook/Facebook+135.0.0.22.90.zip.apk");
         desiredCapabilities.setCapability(MobileCapabilityType.APP, "com.facebook.katana");
         //desiredCapabilities.setCapability("appActivity", "com.facebook.katana.app.FacebookSplashScreenActivity"); //first screen
@@ -47,14 +49,20 @@ public class FB {
 
         desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_NAME, "Android");
         //desiredCapabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME, "UiAutomator2");
-        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "6.0");
-        desiredCapabilities.setCapability(MobileCapabilityType.NO_RESET, "true");
+        desiredCapabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION, "6.0"); //emulator
+
+        desiredCapabilities.setCapability("fastReset", "true");
+        desiredCapabilities.setCapability("autoGrantPermissions", "true");
+        desiredCapabilities.setCapability("noReset", "false");
 
 
         URL remoteUrl = new URL("http://localhost:4723/wd/hub");
 
         //driver.manage().timeouts().implicitlyWait(30, TimeUnit.NANOSECONDS);
+        setUpIsDone = true;
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
+        customWait(20);
+        login();
     }
 
     @Ignore
@@ -108,25 +116,26 @@ public class FB {
 
     }
 
-
+    @Ignore
     @Test
     public void login() {
-        customWait(10);
+        try {
+            MobileElement el1 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Username\"]");
+            el1.sendKeys("romanivanov726@mail.ru");
+            MobileElement el2 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Password\"]");
+            el2.sendKeys("romanIv0125");
 
-        MobileElement el1 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Username\"]");
-        el1.sendKeys("romanivanov726@mail.ru");
-        MobileElement el2 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Password\"]");
-        el2.sendKeys("romanIv0125");
-
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Login\"]")).click();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Login\"]")).click();
+            customWait(10);
+        }
+        catch(NoSuchElementException exp) {
+            System.out.println("We have already made log in");
+        }
     }
 
     @Test
     public void findFriend() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Find Friends\"]")).click();
         customWait(2);
         //clicking on search
@@ -144,35 +153,37 @@ public class FB {
 
     @Test
     public void enterGroup() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Groups\"]")).click();
         customWait(2);
         //clicking on search
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.EditText")).click();
+        try {
+            driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText")).click();
+        }
+        catch(NoSuchElementException exp) {
+            System.out.println("We have an exception: " + exp);
+            driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.LinearLayout/android.widget.RelativeLayout/android.widget.RelativeLayout/android.widget.EditText")).click();
+
+        }
         //use search another search field to enter request
         customWait(2);
         MobileElement searchGroup = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText");
-        searchGroup.sendKeys("ITMO UNIVERSITY" +"\n");
+        searchGroup.sendKeys("empty group" +"\n");
         customWait(5);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Groups\"]")).click();
         //Choose ITMO Group
         customWait(2);
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup\n")).click();
+        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup")).click();
         customWait(2);
         //get ask group join menu
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Join Group\"]")).click();
-        callFBBackButton(3);
+        callFBBackButton(4);
     }
+
 
     @Test
     public void videos() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Videos on Watch\"]")).click();
         customWait(2);
         MobileElement searchVideo = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText");
@@ -180,20 +191,28 @@ public class FB {
         customWait(5);
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup")).click();
         customWait(4);
-        driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); //Click video
-        driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); // enter menu
-        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Save video, Add this to your saved videos.\"]/android.widget.TextView[1]")).click();
-        customWait(1);
+        boolean success = true;
+        while(success) {
+            try {
+                driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); //Click video
+                driver.findElement(By.xpath("//android.widget.ImageView[@content-desc=\"Clear text\"]")).click(); // enter menu
+                driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Save video, Add this to your saved videos.\"]/android.widget.TextView[1]")).click();
+                customWait(1);
+                success = false;
+            }
+            catch (NoSuchElementException exp) {
+                System.out.println("Failed to save video. Attempting again....");
+
+            }
+        }
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[2]/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[2]")).click();
-        callAndroidBackButton(6);
+        callAndroidBackButton(7);
     }
 
     @Test
     public void events() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
+        seeMoreBtn();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Events\"]")).click();
         customWait(2);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Tomorrow\"]")).click();
@@ -205,10 +224,8 @@ public class FB {
 
     @Test
     public void collections() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        seeMoreBtn();
+        //enterMainMenu();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Saved\"]")).click();
         customWait(2);
         driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Create\"]/android.widget.TextView")).click();
@@ -225,16 +242,20 @@ public class FB {
 
     @Test
     public void gaming() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
+        seeMoreBtn();
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Gaming\"]")).click();
         customWait(2);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Follow Games\"]")).click();
         customWait(2);
         //follow first game from list
-        driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Add\"])[1]")).click();
+        try {
+            driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Add\"])[1]")).click();
+        }
+        catch (NoSuchElementException exp){
+            System.out.println("Tryin to clck follow button instead of add button");
+            driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
+        }
         customWait(2);
         callFBBackButton(1);
         customWait(2);
@@ -244,15 +265,7 @@ public class FB {
         customWait(2);
         //follow first streamer from list
         driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
-        customWait(2);
-        callFBBackButton(1);
-        customWait(2);
-
-        //enter "You" menu
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"You\"]")).click();
-        customWait(4);
-        //follow first suggested streamer from list
-        driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
+        //testing of 'You' menu was deprecated
         customWait(2);
         callFBBackButton(2);
 
@@ -260,11 +273,14 @@ public class FB {
 
     @Test
     public void jobs() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Jobs\"]")).click();
+        enterMainMenu();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Jobs\"]")).click();
+        }
+        catch(NoSuchElementException exp) {
+            seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Jobs\"]")).click();
+        }
         customWait(2);
         //click on settings
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.HorizontalScrollView/android.view.ViewGroup/android.view.ViewGroup[2]/android.widget.Button")).click();
@@ -290,15 +306,18 @@ public class FB {
 
     @Test
     public void messangerInstall() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Install Messenger\"]")).click();
+        enterMainMenu();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Install Messenger\"]")).click();
+        }
+        catch(NoSuchElementException exp) {
+            seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Install Messenger\"]")).click();
+        }
         customWait(4);
         //click install button in Google Play
         driver.findElement(By.id("com.android.vending:id/right_button")).click();
-        customWait(2);
+        customWait(4);
         //click cancel to not wait
         driver.findElement(By.id("com.android.vending:id/left_button")).click();
         customWait(2);
@@ -309,12 +328,15 @@ public class FB {
 
     @Test
     public void cityGuides() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        seeMoreBtn();
+        enterMainMenu();
         customWait(2);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
+        }
+        catch (NoSuchElementException exp) {
+            seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
+        }
         customWait(2);
         //click Saint Petersburg button
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.widget.HorizontalScrollView/android.view.ViewGroup/android.view.ViewGroup[1]/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup")).click();
@@ -342,9 +364,9 @@ public class FB {
         customWait(2);
         //enter sticker menu
         driver.findElement(By.xpath("//android.widget.TextView[@content-desc=\"Stickers, Tab 2 of 3\"]")).click();
-        customWait(2);
+        customWait(4);
         //choose happy sticker
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/androidx.viewpager.widget.ViewPager/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.LinearLayout/android.widget.FrameLayout/androidx.viewpager.widget.ViewPager/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout[1]/android.widget.GridView/android.widget.LinearLayout[1]/android.widget.TextView")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"Happy"+"\").instance(0)").click();
         customWait(2);
         //choose a last happy sticker in a list
         driver.findElement(By.xpath("//android.widget.RelativeLayout[@content-desc=\"Sticker 23 of 23\"]/android.widget.ImageView")).click();
@@ -369,12 +391,15 @@ public class FB {
 
     @Test
     public void fundRaisers() {
+        enterMainMenu();
         customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        seeMoreBtn();
-        customWait(5);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Fundraisers\"]")).click();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Fundraisers\"]")).click();
+        }
+        catch(NoSuchElementException exp) {
+            seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Fundraisers\"]")).click();
+        }
         customWait(2);
 
         //scroll to first fundraiser
@@ -401,15 +426,28 @@ public class FB {
 
     @Test
     public void liveVideos() {
+        enterMainMenu();
         customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        seeMoreBtn();
-        customWait(5);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Live Videos\"]")).click();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Live Videos\"]")).click();
+        }
+        catch(NoSuchElementException exp) {
+            seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Live Videos\"]")).click();
+        }
         customWait(4);
         //like and follow on first post
-        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"follow"+"\").instance(0)").click();
+        try {
+            driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "follow" + "\").instance(0)").click();
+        }
+        catch(NoSuchElementException exp) {
+            try {
+                driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[1]/android.view.ViewGroup[2]").click();
+            }
+            catch (NoSuchElementException exp2) {
+                System.out.println("Failed to follow");
+            }
+        }
         customWait(2);
         driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\""+"like"+"\").instance(0)").click();
         //click share button
@@ -423,35 +461,42 @@ public class FB {
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"SHARE NOW\"]")).click();
         customWait(2);
         callAndroidBackButton(1);
-
+        notLastTest = false;
     }
-
+    @Ignore
     @Test
     public void logOut() {
-        customWait(5);
-        driver.findElement(MobileBy.AndroidUIAutomator(
-                "new UiSelector().resourceId(\"com.facebook.katana:id/(name removed)\").instance(1)")).click(); // enter main menu
-        customWait(2);
+        enterMainMenu();
         //click log out button
         driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\""+"Log Out, Button 1 of 1"+"\").instance(0))").click();
         customWait(2);
-        /*
-        driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Log Out\")").click();
-        customWait(2);
-        */
+        try {
+            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Log Out\")").click();
+            customWait(2);
+        }
+        catch (NoSuchElementException exp) {
+            System.out.println("Facebook did not display logout menu so do nothing");
+        }
+
     }
 
     public void seeMoreBtn() {
         customWait(5);
         //click see more button
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See More, Header. Section is collapsed. Double-tap to expand the section.\"]")).click();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"See More, Header. Section is collapsed. Double-tap to expand the section.\"]")).click();
+        }
+        catch (NoSuchElementException exp) {
+            System.out.println("Do not need to press see more button");
+        }
     }
 
 
 
     @After
     public void tearDown() {
-
+        if(notLastTest) return;
+        logOut();
         //driver.quit();
     }
 
@@ -473,5 +518,16 @@ public class FB {
         for(int i = 0; i < times; ++i) {
             driver.pressKey(new KeyEvent(AndroidKey.BACK)); //exit
         }
+    }
+    void enterMainMenu() {
+        customWait(5);
+        try {
+            driver.findElement(By.xpath("//android.view.View[@content-desc=\"Menu, Tab 6 of 6\"]")).click();
+        }
+        catch(NoSuchElementException exp) {
+            System.out.println("We have an Main Menu exception" + exp);
+            driver.findElement(By.xpath("//android.view.View[@content-desc=\"Menu, Tab 4 of 4\"]")).click();
+        }
+        customWait(2);
     }
 }
