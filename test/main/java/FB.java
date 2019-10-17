@@ -62,77 +62,11 @@ public class FB {
         setUpIsDone = true;
         driver = new AndroidDriver(remoteUrl, desiredCapabilities);
         customWait(20);
-        login();
+        FBAuth fbAuth = new FBAuth(driver);
+        fbAuth.login();
+        //fbAuth.register();
     }
-
-    @Ignore
-    @Test
-    public void register() {
-        customWait(10);
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Create New Facebook Account\"]")).click();
-        customWait(10);
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.Button")).click();
-        /*
-        try {
-            driver.findElement(By.id("com.android.packageinstaller:id/permission_allow_button")).click(); // It ask for permissions during first sign up only
-            driver.findElement(By.id("com.android.packageinstaller:id/permission_allow_button")).click();
-        }
-        catch(NoSuchElementException exp) {
-            System.out.println("We have an exception " + exp );
-        }
-        */
-
-        //driver.findElementById("com.google.android.gms:id/cancel").click();
-
-
-        MobileElement el1 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
-        el1.sendKeys("Ivan");
-        customWait(10);
-
-        MobileElement el2 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText");
-        el2.sendKeys("Ivanov");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
-        customWait(10);
-        TouchAction touchAction = new TouchAction(driver);
-        touchAction.longPress(PointOption.point(726, 490)).perform(); //or tap
-        customWait(5);
-        touchAction.longPress(PointOption.point(465, 492)).perform();
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
-
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RadioGroup/android.widget.RadioButton[2]")).click();
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
-
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.Button")).click();
-
-        MobileElement emailInput = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Email Address\"]");
-        emailInput.sendKeys("adasddfeadmhffdhfh@yandex.com");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
-
-        MobileElement pwInput = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText");
-        pwInput.sendKeys("TystusO4523");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
-
-        driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Sign up without uploading my contacts\"]")).click();
-
-    }
-
-    @Ignore
-    @Test
-    public void login() {
-        try {
-            MobileElement el1 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Username\"]");
-            el1.sendKeys("romanivanov726@mail.ru");
-            MobileElement el2 = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Password\"]");
-            el2.sendKeys("romanIv0125");
-
-            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Login\"]")).click();
-            customWait(10);
-        }
-        catch(NoSuchElementException exp) {
-            System.out.println("We have already made log in");
-        }
-    }
-
+    
     @Test
     public void findFriend() {
         enterMainMenu();
@@ -476,22 +410,6 @@ public class FB {
         removeButton.get(17).click(); // 15 is to add to friend -> Click remove which removes one friend from list
         notLastTest = false;
     }
-    @Ignore
-    @Test
-    public void logOut() {
-        enterMainMenu();
-        //click log out button
-        driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector().scrollable(true).instance(0)).scrollIntoView(new UiSelector().description(\""+"Log Out, Button 1 of 1"+"\").instance(0))").click();
-        customWait(2);
-        try {
-            driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Log Out\")").click();
-            customWait(2);
-        }
-        catch (NoSuchElementException exp) {
-            System.out.println("Facebook did not display logout menu so do nothing");
-        }
-
-    }
 
     public void seeMoreBtn() {
         customWait(5);
@@ -508,8 +426,9 @@ public class FB {
 
     @After
     public void tearDown() {
+        FBAuth fbAuth = new FBAuth(driver);
         if(notLastTest) return;
-        logOut();
+        fbAuth.logOut();
         //driver.quit();
     }
 
