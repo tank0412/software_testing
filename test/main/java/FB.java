@@ -461,6 +461,19 @@ public class FB {
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"SHARE NOW\"]")).click();
         customWait(2);
         callAndroidBackButton(1);
+    }
+
+    @Test
+    public void removeSuggestedFriend() {
+        try {
+            driver.findElementByXPath("//android.view.View[@content-desc=\"Friends, Tab 2 of 6\"]").click();
+        }
+        catch (NoSuchElementException exp) {
+            driver.findElementByXPath("//android.view.View[@content-desc=\"Friends, Tab 2 of 4\"]").click();
+        }
+        customWait(2);
+        List<WebElement> removeButton=driver.findElements(By.className("android.view.ViewGroup"));
+        removeButton.get(17).click(); // 15 is to add to friend -> Click remove which removes one friend from list
         notLastTest = false;
     }
     @Ignore
