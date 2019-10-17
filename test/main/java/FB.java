@@ -66,7 +66,7 @@ public class FB {
         fbAuth.login();
         //fbAuth.register();
     }
-    
+
     @Test
     public void findFriend() {
         enterMainMenu();
@@ -411,6 +411,19 @@ public class FB {
         notLastTest = false;
     }
 
+    @Ignore
+    @Test
+    public void testFBShortcut() {
+        customWait(2);
+        driver.pressKey(new KeyEvent(AndroidKey.HOME)); // press home
+        customWait(2);
+        driver.findElementByXPath("//android.widget.TextView[@content-desc=\"Apps\"]").click();
+        customWait(2);
+        MobileElement fbApp = (MobileElement) driver.findElementByXPath("//android.widget.TextView[@content-desc=\"Facebook\"]");
+        new TouchAction((MobileDriver) driver).longPress(PointOption.point(450,722)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(5000))).moveTo(PointOption.point(479, 1312)).release().perform();
+        customWait(2);
+    }
+
     public void seeMoreBtn() {
         customWait(5);
         //click see more button
@@ -429,6 +442,7 @@ public class FB {
         FBAuth fbAuth = new FBAuth(driver);
         if(notLastTest) return;
         fbAuth.logOut();
+        testFBShortcut();
         //driver.quit();
     }
 
