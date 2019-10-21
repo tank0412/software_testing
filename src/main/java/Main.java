@@ -25,6 +25,7 @@ public class Main {
             } else {
                 String[] wordParts = new String[3];
                 String record = input.requestWordForDB();
+                int countSpaces = 0;
                 int j = 0, i;
                 int count = 0;
                 for (i = 0; i < record.length(); ++i) {
@@ -34,7 +35,10 @@ public class Main {
                         char[] temp = new char[10];
                         for (; j < i; ++j) {
                             if (i == array.length - 1) ++i; // для последней буквы слова
-                            if (array[j] == ' ') continue;
+                            if (array[j] == ' ') {
+                                countSpaces++;
+                                continue;
+                            }
                             temp[index] = array[j];
                             index++;
                         }
@@ -42,6 +46,9 @@ public class Main {
                         wordParts[count] = new String(temp);
                         count++;
                     }
+                }
+                if(countSpaces != 2) {
+                    System.out.println("You have entered not Two words!");
                 }
                 //add new word to db
                 for (i = 0; i < 3; ++i) {

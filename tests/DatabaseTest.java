@@ -110,7 +110,6 @@ class DatabaseTest {
         }
     }
 
-    //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, корень и посткоренная часть
     //Реализовать поддержку сохранения однокоренного слова в виде предкоренной части, корня и посткоренной части в БД, если оно там отсутствует
     @Test
     void testInputWordSaveToDB() {
@@ -147,5 +146,29 @@ class DatabaseTest {
             fail("We have SQLException " + e);
         }
     }
+    //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, корень и посткоренная часть
+    @Test
+    void testInputWordInAFormat() {
+        String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+//
+        if(output.contains("You have entered not Two words!")) {
+            fail("Failed testInputWordInAFormat");
+        }
+
+        deleteWordFromDB("пред", "утрен", "ний");
+
+
+
+    }
+
 
 }
