@@ -3,15 +3,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Input {
+    public static Scanner scanner;
+    Input() {
+        scanner = new Scanner(System.in);
+    }
     public static String requestWord(String inputQuestion) {
         System.out.println(inputQuestion);
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
-        String input = scanner.nextLine();
-        return input;
-    }
-    public static String requestWord(String inputQuestion, Scanner testscanner) {
-        System.out.println(inputQuestion);
-        Scanner scanner = testscanner;
         String input = scanner.nextLine();
         return input;
     }
@@ -28,7 +25,6 @@ public class Input {
     }
     public static String requestWordForDB() {
         System.out.println("Enter word in format: beforeRoot Root afterRoot USE spaces");
-        Scanner scanner = new Scanner(System.in);  // Create a Scanner object
         String input = scanner.nextLine();
         return input;
     }

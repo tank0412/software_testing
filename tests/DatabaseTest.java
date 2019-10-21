@@ -1,5 +1,8 @@
 import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class DatabaseTest {
     ResultSet  rs = null;
     //Реализовать запрос всей таблицы со словами из БД.
+
     @Test
     public void testDBSelect() {
         String selectQuery = "SELECT * FROM Dictionary;";
@@ -25,6 +29,7 @@ class DatabaseTest {
         }
     }
     //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
+
     @Test
     public void testDBInsert() {
         Database db = new Database();
@@ -48,6 +53,7 @@ class DatabaseTest {
         }
     }
     //реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
+
     @Test
     public void testDBUpdate() {
         Database db = new Database();
@@ -83,6 +89,7 @@ class DatabaseTest {
 
     }
     //Реализовать вывод полученного списка слов из БД по одинаковому корню.
+
     @Test
     public void testDBSelectRootWords() {
         Database db = new Database();
@@ -100,6 +107,44 @@ class DatabaseTest {
         }
         catch (SQLException exp) {
             fail("We have SQLException " + exp);
+        }
+    }
+
+    //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, корень и посткоренная часть
+    //Реализовать поддержку сохранения однокоренного слова в виде предкоренной части, корня и посткоренной части в БД, если оно там отсутствует
+    @Test
+    void testInputWordSaveToDB() {
+        String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        Main.main(null);
+        System.setIn(System.in);
+        testDBSelect();
+        try {
+        while (rs.next()) {
+            String word = rs.getString("BeforeRoot") + rs.getString("Root") + rs.getString("AfterRoot");
+            if(word.equals("предутренний")) {
+                System.out.println("Test passed");
+                break;
+            }
+        }
+    }
+        catch (SQLException e) {
+            fail("We have SQLException " + e);
+    }
+        deleteWordFromDB("пред", "утрен", "ний");
+
+    }
+    void deleteWordFromDB(String before, String root, String after) {
+        Database db = new Database();
+        Connection ourConnection = db.getConnection();
+        try {
+            Statement stmt = ourConnection.createStatement();
+            String sql = "DELETE FROM Dictionary WHERE beforeroot =" +  "'" + before + "'" + " AND " + "Root=" + "'" + root + "'" + " AND" + " AfterRoot=" +  "'" + after + "'" + ";" ;
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e) {
+            fail("We have SQLException " + e);
         }
     }
 
