@@ -11,11 +11,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 
 public class FBAuth {
-    private static AndroidDriver driver;
-    private FB fb;
+    private AndroidDriver driver;
+    private FBCommonMethods fb;
 
     public FBAuth(AndroidDriver adriver) {
-        fb = new FB();
+        fb = new FBCommonMethods();
         driver = adriver;
     }
 
