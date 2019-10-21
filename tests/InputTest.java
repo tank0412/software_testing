@@ -40,4 +40,23 @@ class InputTest {
 
 
     }
+    //Реализовать выход из программы при вводе буквы q
+    @Test
+    void testExitAfterQ() {
+        String inputedWord= "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("Exiting...")) {
+            fail("Failed testInputWordInAFormat");
+        }
+
+    }
 }

@@ -8,7 +8,10 @@ public class Main {
             do {
                 inputWord = input.requestWord("Please write a word");
                 //System.out.println(inputWord);
-                if (inputWord.equals("q")) return;
+                if (inputWord.equals("q")) {
+                    System.out.println("Exiting...");
+                    return;
+                }
                 if (input.checkUserInput(inputWord)) {
                     System.out.println("Input correct");
                 }
