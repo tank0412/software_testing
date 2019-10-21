@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
     ResultSet  rs = null;
+    //Реализовать запрос всей таблицы со словами из БД.
     @Test
     public void testDBSelect() {
         String selectQuery = "SELECT * FROM Dictionary;";
@@ -23,6 +24,7 @@ class DatabaseTest {
             fail("We have SQLException " + exp);
         }
     }
+    //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
     @Test
     public void testDBInsert() {
         Database db = new Database();
@@ -45,6 +47,7 @@ class DatabaseTest {
             fail("We have SQLException " + exp);
         }
     }
+    //реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
     @Test
     public void testDBUpdate() {
         Database db = new Database();
@@ -79,6 +82,7 @@ class DatabaseTest {
         }
 
     }
+    //Реализовать вывод полученного списка слов из БД по одинаковому корню.
     @Test
     public void testDBSelectRootWords() {
         Database db = new Database();
