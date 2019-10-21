@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 public class fundRaisersTest {
     private AndroidDriver driver = FB.driver;
+
     @Test
     public void fundRaisers() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();

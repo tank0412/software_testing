@@ -1,6 +1,7 @@
 package main.java;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -22,6 +23,5 @@ public class removeSuggestedFriendTest {
         fbCommonMethods.customWait(2);
         List<WebElement> removeButton=driver.findElements(By.className("android.view.ViewGroup"));
         removeButton.get(17).click(); // 15 is to add to friend -> Click remove which removes one friend from list
-        FB.notLastTest = false;
     }
 }

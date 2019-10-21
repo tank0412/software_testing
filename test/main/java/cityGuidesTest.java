@@ -8,11 +8,12 @@ import org.openqa.selenium.NoSuchElementException;
 
 public class cityGuidesTest {
     private AndroidDriver driver = FB.driver;
+    
     @Test
     public void cityGuides() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();
         fbCommonMethods.enterMainMenu();
-        fbCommonMethods.customWait(2);
+        fbCommonMethods.customWait(3);
         try {
             driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"City Guides\"]")).click();
         }

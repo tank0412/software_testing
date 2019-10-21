@@ -24,7 +24,11 @@ public class collectionsTest {
         fbCommonMethods.customWait(1);
         //enter collection name
         MobileElement collName = (MobileElement) driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.EditText"));
-        collName.sendKeys("TEST");
+        int a = 0; // Начальное значение диапазона - "от"
+        int b = 10000; // Конечное значение диапазона - "до"
+
+        int random_number1 = a + (int) (Math.random() * b); // Генерация 1-го числа
+        collName.sendKeys("TEST" + Integer.toString(random_number1));
         fbCommonMethods.customWait(3);
         //click create collection button
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.view.ViewGroup/android.widget.Button[2]/android.widget.TextView\n")).click();

@@ -27,7 +27,7 @@ public class enterGroupTest {
         //use search another search field to enter request
         fbCommonMethods.customWait(2);
         MobileElement searchGroup = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText");
-        searchGroup.sendKeys("empty group" +"\n");
+        searchGroup.sendKeys("discovery channel" +"\n");
         fbCommonMethods.customWait(5);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Groups\"]")).click();
         //Choose ITMO Group

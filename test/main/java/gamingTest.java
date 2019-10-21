@@ -12,8 +12,13 @@ public class gamingTest {
     public void gaming() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();
         fbCommonMethods.enterMainMenu();
-        fbCommonMethods.seeMoreBtn();
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Gaming\"]")).click();
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Gaming\"]")).click();
+        }
+        catch (NoSuchElementException exp) {
+            fbCommonMethods.seeMoreBtn();
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Gaming\"]")).click();
+        }
         fbCommonMethods.customWait(2);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Follow Games\"]")).click();
         fbCommonMethods.customWait(2);

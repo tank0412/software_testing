@@ -13,7 +13,15 @@ public class videosTest {
     public void videos() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();
         fbCommonMethods.enterMainMenu();
-        driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Videos on Watch\"]")).click();
+        fbCommonMethods.customWait(2);
+        try {
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Videos on Watch\"]")).click();
+        }
+        catch (NoSuchElementException exp) {
+            fbCommonMethods.seeMoreBtn();
+            fbCommonMethods.customWait(2);
+            driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Videos on Watch\"]")).click();
+        }
         fbCommonMethods.customWait(2);
         MobileElement searchVideo = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.EditText");
         searchVideo.sendKeys("ITMO UNIVERSITY" +"\n");
@@ -36,5 +44,6 @@ public class videosTest {
         }
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.FrameLayout/android.view.ViewGroup/android.view.ViewGroup[2]/androidx.recyclerview.widget.RecyclerView/android.view.ViewGroup[2]")).click();
         fbCommonMethods.callAndroidBackButton(7);
+        FB.notLastTest = false;
     }
 }

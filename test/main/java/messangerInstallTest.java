@@ -7,6 +7,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 public class messangerInstallTest {
     private AndroidDriver driver = FB.driver;
+
     @Test
     public void messangerInstall() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();
@@ -16,6 +17,7 @@ public class messangerInstallTest {
         }
         catch(NoSuchElementException exp) {
             fbCommonMethods.seeMoreBtn();
+            fbCommonMethods.customWait(2);
             driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Install Messenger\"]")).click();
         }
         fbCommonMethods.customWait(4);
@@ -27,6 +29,13 @@ public class messangerInstallTest {
         fbCommonMethods.customWait(2);
         fbCommonMethods.callAndroidBackButton(1);
         fbCommonMethods.customWait(2);
-        fbCommonMethods.callFBBackButton(1);
+        try {
+            fbCommonMethods.callFBBackButton(1);
+        }
+        catch (NoSuchElementException exp) {
+            fbCommonMethods.callAndroidBackButton(1);
+            fbCommonMethods.customWait(2);
+            fbCommonMethods.callFBBackButton(1);
+        }
     }
 }

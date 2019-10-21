@@ -8,6 +8,7 @@ import org.openqa.selenium.NoSuchElementException;
 
 public class jobsTest {
     private AndroidDriver driver = FB.driver;
+
     @Test
     public void jobs() {
         FBCommonMethods fbCommonMethods = new FBCommonMethods();
@@ -34,7 +35,13 @@ public class jobsTest {
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.widget.ImageView")).click();
         fbCommonMethods.customWait(2);
         //disable notifications to receive a it when job is available
-        driver.findElement(By.xpath("//X.6Nr[@content-desc=\"Toggle button\"]")).click();
+        try {
+            driver.findElement(By.xpath("//X.6Nr[@content-desc=\"Toggle button\"]")).click();
+        }
+        catch (NoSuchElementException exp) {
+            System.out.println("Failed to press toogle to disable notifications. Attempting to use another method.....");
+            driver.findElementByAndroidUIAutomator("UiSelector().description(\"Toggle button\")").click();
+        }
         fbCommonMethods.customWait(2);
         //click save button
         driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup/android.widget.Button[2]/android.widget.TextView")).click();
