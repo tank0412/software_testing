@@ -12,20 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
     ResultSet  rs = null;
-    //Реализовать запрос всей таблицы со словами из БД.
 
+    //Реализовать запрос всей таблицы со словами из БД.
     @Test
     public void testDBSelect() {
-        String selectQuery = "SELECT * FROM Dictionary;";
+
         Database db = new Database();
-        Connection ourConnection = db.getConnection();
-        Statement stmt = null;
-        try {
-            stmt = ourConnection.createStatement();
-            rs = stmt.executeQuery(selectQuery);
-        }
-        catch (SQLException exp) {
-            fail("We have SQLException " + exp);
+        String[][] dictionary = db.selectAllWords();
+        if(dictionary == null) {
+            fail("Failed to testDBSelect ");
         }
     }
     //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
@@ -119,19 +114,11 @@ class DatabaseTest {
         System.setIn(in);
         Main.main(null);
         System.setIn(System.in);
-        testDBSelect();
-        try {
-        while (rs.next()) {
-            String word = rs.getString("BeforeRoot") + rs.getString("Root") + rs.getString("AfterRoot");
-            if(word.equals("предутренний")) {
-                System.out.println("Test passed");
-                break;
-            }
+
+        if(!db.checkIsWordExists("предутренний")) {
+            fail("Failed to test testInputWordSaveToDB");
         }
-    }
-        catch (SQLException e) {
-            fail("We have SQLException " + e);
-    }
+
         db.deleteWordFromDB("пред", "утрен", "ний");
 
     }

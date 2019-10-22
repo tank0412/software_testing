@@ -133,4 +133,29 @@ public class Database {
             System.out.println("We have SQLException " + e);
         }
     }
+
+    public String[][] selectAllWords() {
+        String selectQuery = "SELECT * FROM Dictionary;";
+        Database db = new Database();
+        Connection ourConnection = db.getConnection();
+        Statement stmt;
+        ResultSet rs;
+        String[][] dictionary = null;
+        try {
+            stmt = ourConnection.createStatement();
+            rs = stmt.executeQuery(selectQuery);
+            dictionary = new String[100][3];
+        int i = 0;
+        while (rs.next()) {
+            dictionary[i][0] = checkIsNullColumn(rs.getString("BeforeRoot"));
+            dictionary[i][1] = checkIsNullColumn(rs.getString("Root"));
+            dictionary[i][2] = checkIsNullColumn(rs.getString("AfterRoot"));
+            i++;
+                 }
+        }
+        catch (SQLException exp) {
+            System.out.println("We have SQLException " + exp);
+        }
+        return  dictionary;
+    }
 }
