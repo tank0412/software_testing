@@ -107,7 +107,7 @@ public class Database {
             int wordIndex = 0;
             String wordDb = null;
             while (rsRoot.next()) {
-                if(!(checkIsNullColumn(rsRoot.getString("BeforeRoot")) + checkIsNullColumn(rsRoot.getString("Root")) + checkIsNullColumn(rsRoot.getString("AfterRoot"))).equals(word))
+                if(!checkIsNullColumn(rsRoot.getString("BeforeRoot")).equals("") && !checkIsNullColumn(rsRoot.getString("Root")).equals("") && !checkIsNullColumn(rsRoot.getString("AfterRoot")).equals(""))
                     wordDb = checkIsNullColumn(rsRoot.getString("BeforeRoot")) + '-' + checkIsNullColumn(rsRoot.getString("Root")) + '-' + checkIsNullColumn(rsRoot.getString("AfterRoot"));
                 rootWord[wordIndex] = wordDb;
                 wordIndex++;
@@ -157,5 +157,17 @@ public class Database {
             System.out.println("We have SQLException " + exp);
         }
         return  dictionary;
+    }
+    public void updateWord(String[] oldWord, String[] newWord) {
+        Database db = new Database();
+        Connection ourConnection = db.getConnection();
+        try {
+            Statement stmt  = ourConnection.createStatement();
+            String sql = "UPDATE Dictionary SET beforeroot ='"+ newWord[0] + "' , root='" + newWord[1] + "' , afterroot='" + newWord[2] + "' WHERE beforeroot ='" + oldWord[0] + "' AND Root ='" + oldWord[1] + "' AND AfterRoot ='" + oldWord[2] + "';";
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException exp) {
+            System.out.println("We have SQLException " + exp);
+        }
     }
 }

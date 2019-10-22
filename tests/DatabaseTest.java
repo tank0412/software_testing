@@ -27,82 +27,88 @@ class DatabaseTest {
 
     @Test
     public void testDBInsert() {
+
         Database db = new Database();
-        Connection ourConnection = db.getConnection();
-        try {
-        Statement stmt  = ourConnection.createStatement();
-        String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) " +
-                "VALUES (null, 'лес', 'ной');";
-        stmt.executeUpdate(sql);
-        testDBSelect();
-        while (rs.next()) {
-             String word = rs.getString("BeforeRoot") + rs.getString("Root") + rs.getString("AfterRoot");
-             if(word == "лесной") {
-                 System.out.println("Test passed");
-                 break;
-             }
-            }
+        String[] wordparts = new String[3];
+        wordparts[0] = "пред";
+        wordparts[1] = "диплом";
+        wordparts[2] = "ная";
+        db.insertWord(wordparts);
+
+        if(!db.checkIsWordExists(wordparts[0] + wordparts[1] + wordparts[2])) {
+            fail("Failed to test testDBInsert");
         }
-        catch (SQLException exp) {
-            fail("We have SQLException " + exp);
-        }
+
+        db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
     }
     //реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
 
     @Test
     public void testDBUpdate() {
+
         Database db = new Database();
-        Connection ourConnection = db.getConnection();
-        try {
-            Statement stmt  = ourConnection.createStatement();
-            String sql = "UPDATE Dictionary SET AfterRoot ='ные' WHERE Root = 'лес' AND AfterRoot ='ной';";
-            stmt.executeUpdate(sql);
+        String[] wordparts = new String[3];
+        wordparts[0] = "пред";
+        wordparts[1] = "диплом";
+        wordparts[2] = "ная";
+        db.insertWord(wordparts);
 
-            /*
-            while (rs.next()) {
-                String word = rs.getString("BeforeRoot") + rs.getString("Root") + rs.getString("AfterRoot");
-                if(word == "лесной") {
-                    System.out.println("Test passed");
-                    break;
-                }
-            }
-            */
-            testDBSelect();
-            while (rs.next()) {
-                String word = db.checkIsNullColumn(rs.getString("BeforeRoot")) + db.checkIsNullColumn(rs.getString("Root")) + db.checkIsNullColumn(rs.getString("AfterRoot"));
-                if(word.equals("лесные")) {
-                    System.out.println("Test passed");
-                    return;
-                    //break;
-                }
-            }
-            fail("Update  record failed;");
-        }
-        catch (SQLException exp) {
-            fail("We have SQLException " + exp);
-        }
+        String[] newWord = new String[3];
+        newWord[0] = "пред";
+        newWord[1] = "диплом";
+        newWord[2] = "ный";
 
+        db.updateWord(wordparts, newWord);
+
+        boolean isUpdatedWordExists = db.checkIsWordExists(newWord[0] + newWord[1] + newWord[2]);
+
+        db.deleteWordFromDB(newWord[0] , newWord[1] , newWord[2]);
+
+        if(isUpdatedWordExists) {
+            System.out.println("Test Passed");
+        }
+        else {
+            fail("Failed to test testDBUpdate");
+        }
     }
     //Реализовать вывод полученного списка слов из БД по одинаковому корню.
 
     @Test
     public void testDBSelectRootWords() {
         Database db = new Database();
-        Connection ourConnection = db.getConnection();
-        try {
-            Statement stmt  = ourConnection.createStatement();
-            String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + "лес" + "'" + "ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
-            ResultSet rootResults = stmt.executeQuery(sqlRootWords);
-            rootResults.next();
-                String word = db.checkIsNullColumn(rootResults.getString("BeforeRoot")) + db.checkIsNullColumn(rootResults.getString("Root")) + db.checkIsNullColumn(rootResults.getString("AfterRoot"));
-                if(word == "лес") {
-                    System.out.println("Test passed");
-                }
+        String[] wordOne = new String[3];
+        wordOne[0] = "на";
+        wordOne[1] = "сып";
+        wordOne[2] = "ать";
+        db.insertWord(wordOne);
+        String[] wordTwo = new String[3];
+        wordTwo[0] = "от";
+        wordTwo[1] = "сып";
+        wordTwo[2] = "ал";
+        db.insertWord(wordTwo);
+
+        String[] rootWords = db.getRootWords(wordOne[0] + wordOne[1] + wordOne[2]);
+        int wordsFoundCount = 0;
+        String wordOneConcat =  wordOne[0] + "-" +  wordOne[1] + "-" +  wordOne[2];
+        String wordTwoConcat =  wordTwo[0] + "-" +  wordTwo[1] + "-" +  wordTwo[2];
+        for(int i = 0; i < 100; ++i) {
+            if(rootWords[i] == null) {
+                break;
+            }
+            if(rootWords[i].equals(wordOneConcat) || rootWords[i].equals(wordTwoConcat) ) {
+                wordsFoundCount++;
+            }
 
         }
-        catch (SQLException exp) {
-            fail("We have SQLException " + exp);
+
+        db.deleteWordFromDB(wordOne[0], wordOne[1],wordOne[2]);
+        db.deleteWordFromDB(wordTwo[0], wordTwo[1],wordTwo[2]);
+
+
+        if(wordsFoundCount != 2) {
+            fail("Failed to test testDBSelectRootWords");
         }
+
     }
 
     //Реализовать поддержку сохранения однокоренного слова в виде предкоренной части, корня и посткоренной части в БД, если оно там отсутствует
