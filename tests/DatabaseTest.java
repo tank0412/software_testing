@@ -113,6 +113,7 @@ class DatabaseTest {
     //Реализовать поддержку сохранения однокоренного слова в виде предкоренной части, корня и посткоренной части в БД, если оно там отсутствует
     @Test
     void testInputWordSaveToDB() {
+        Database db = new Database();
         String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
@@ -131,20 +132,26 @@ class DatabaseTest {
         catch (SQLException e) {
             fail("We have SQLException " + e);
     }
-        deleteWordFromDB("пред", "утрен", "ний");
+        db.deleteWordFromDB("пред", "утрен", "ний");
 
     }
-    void deleteWordFromDB(String before, String root, String after) {
+    //Реализовать конкатенацию строки из БД в одно слово
+    //Проверить слово на его присутствие в БД
+    @Test
+    void testDBIsExistsAndConcat() {
         Database db = new Database();
-        Connection ourConnection = db.getConnection();
-        try {
-            Statement stmt = ourConnection.createStatement();
-            String sql = "DELETE FROM Dictionary WHERE beforeroot =" +  "'" + before + "'" + " AND " + "Root=" + "'" + root + "'" + " AND" + " AfterRoot=" +  "'" + after + "'" + ";" ;
-            stmt.executeUpdate(sql);
+        String[] wordparts = new String[3];
+        wordparts[0] = "пред";
+        wordparts[1] = "диплом";
+        wordparts[2] = "ная";
+        db.insertWord(wordparts);
+
+        boolean isExists = db.checkIsWordExists("преддипломная");
+        if(!isExists) {
+            fail("Failed to check is word exists in DB");
         }
-        catch (SQLException e) {
-            fail("We have SQLException " + e);
-        }
+
+        db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
     }
 
 

@@ -34,8 +34,8 @@ class InputTest {
         if(output.contains("You have entered not Two words!")) {
             fail("Failed testInputWordInAFormat");
         }
-        DatabaseTest dbt = new DatabaseTest();
-        dbt.deleteWordFromDB("пред", "утрен", "ний");
+        Database db = new Database();
+        db.deleteWordFromDB("пред", "утрен", "ний");
 
 
 

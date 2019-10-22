@@ -121,4 +121,16 @@ public class Database {
         rootWord = temp.toArray( new String[temp.size()] );
         return rootWord;
     }
+
+    void deleteWordFromDB(String before, String root, String after) {
+        Connection ourConnection = getConnection();
+        try {
+            Statement stmt = ourConnection.createStatement();
+            String sql = "DELETE FROM Dictionary WHERE beforeroot =" +  "'" + before + "'" + " AND " + "Root=" + "'" + root + "'" + " AND" + " AfterRoot=" +  "'" + after + "'" + ";" ;
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e) {
+            System.out.println("We have SQLException " + e);
+        }
+    }
 }
