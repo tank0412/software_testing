@@ -17,7 +17,7 @@ public class Input {
         Pattern pattern = Pattern.compile(
                 "[" +                   //начало списка допустимых символов
                         "а-яА-ЯёЁ" +    //буквы русского алфавита
-                        "a-zA" + // латинница
+                        //"a-zA" + // латинница
                         "]" +                   //конец списка допустимых символов
                         "*");
         Matcher matcher = pattern.matcher(userInput);

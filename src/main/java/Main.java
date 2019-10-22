@@ -4,6 +4,7 @@ public class Main {
         System.out.println("Lab2");
         Input input = new Input();
         String inputWord = null;
+        boolean check = false;
         for(;;) {
             do {
                 inputWord = input.requestWord("Please write a word");
@@ -12,11 +13,15 @@ public class Main {
                     System.out.println("Exiting...");
                     return;
                 }
-                if (input.checkUserInput(inputWord)) {
+                check = input.checkUserInput(inputWord);
+                if (check) {
                     System.out.println("Input correct");
                 }
+                else {
+                    System.out.println("Input has latin or digit or special symbol. Try again");
+                }
             }
-            while (input.checkUserInput(inputWord) == false);
+            while (!check);
             boolean checkIsExists = db.checkIsWordExists(inputWord);
             if (checkIsExists) {
                 //Requests words with same root form db
