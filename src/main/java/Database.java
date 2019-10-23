@@ -61,21 +61,8 @@ public class Database {
     }
 
     void insertWord(String[] wordParts) {
-        String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) VALUES (";
-        sql+="'";
-        String temp = wordParts[0].replaceAll("\\s+","");
-        sql+=temp;
-        sql+="'";
-        sql+=",";
-        sql+="'";
-        sql+=wordParts[1].replaceAll("\\s+","");
-        sql+="'";
-        sql+=",";
-        sql+="'";
-        sql+=wordParts[2].replaceAll("\\s+","");
-        sql+="'";
-        sql+=")";
-        sql+=";";
+        String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) VALUES ('" + wordParts[0].replaceAll("\\s+","")+ "','" +
+                wordParts[1].replaceAll("\\s+","") + "','" + wordParts[2].replaceAll("\\s+","") + "');";
         try {
             stmt = dbConnection.createStatement();
             stmt.executeUpdate(sql);
