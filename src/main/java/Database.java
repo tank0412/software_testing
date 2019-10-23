@@ -57,12 +57,12 @@ public class Database {
     String checkIsNullColumn(String column) {
         if(column == null ) return "";
         if(!column.equals("null")) return column;
-        else return "";
+        else return null;
     }
 
     void insertWord(String[] wordParts) {
-        String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) VALUES ('" + wordParts[0].replaceAll("\\s+","")+ "','" +
-                wordParts[1].replaceAll("\\s+","") + "','" + wordParts[2].replaceAll("\\s+","") + "');";
+        String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) VALUES (" + checkIsNullBeforeInsert(wordParts[0].replaceAll("\\s+",""))+ "," +
+                checkIsNullBeforeInsert(wordParts[1].replaceAll("\\s+","")) + "," + checkIsNullBeforeInsert(wordParts[2].replaceAll("\\s+","")) + ");";
         try {
             stmt = dbConnection.createStatement();
             stmt.executeUpdate(sql);
@@ -72,6 +72,12 @@ public class Database {
             return;
         }
 
+    }
+    String checkIsNullBeforeInsert(String wordPart) {
+        if(wordPart.equals("null")) return null;
+        else {
+            return "'" + wordPart + "'";
+        }
     }
     String[] getRootWords(String word) {
         //String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
@@ -94,8 +100,7 @@ public class Database {
             int wordIndex = 0;
             String wordDb = null;
             while (rsRoot.next()) {
-                if(!checkIsNullColumn(rsRoot.getString("BeforeRoot")).equals("") && !checkIsNullColumn(rsRoot.getString("Root")).equals("") && !checkIsNullColumn(rsRoot.getString("AfterRoot")).equals(""))
-                    wordDb = checkIsNullColumn(rsRoot.getString("BeforeRoot")) + '-' + checkIsNullColumn(rsRoot.getString("Root")) + '-' + checkIsNullColumn(rsRoot.getString("AfterRoot"));
+                wordDb = checkIsNullColumn(rsRoot.getString("BeforeRoot")) + '-' + checkIsNullColumn(rsRoot.getString("Root")) + '-' + checkIsNullColumn(rsRoot.getString("AfterRoot"));
                 rootWord[wordIndex] = wordDb;
                 wordIndex++;
             }

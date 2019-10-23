@@ -147,6 +147,50 @@ class DatabaseTest {
         db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
     }
 
+    //Реализовать сортировку полученных данных из БД по количеству пустых столбцов (если в столбце null, значит у слова этой части нет)
+    @Test
+    public void testDBOrderByNuLL() {
+        Database db = new Database();
+        String[] wordOne = new String[3];
+        wordOne[0] = "от";
+        wordOne[1] = "сып";
+        wordOne[2] = "ал";
+        db.insertWord(wordOne);
+        String[] wordTwo = new String[3];
+        wordTwo[0] = "null";
+        wordTwo[1] = "сып";
+        wordTwo[2] = "ать";
+        db.insertWord(wordTwo);
+
+        String[] rootWords = db.getRootWords(wordOne[0] + wordOne[1] + wordOne[2]);
+        String wordOneConcat =  wordOne[0] + "-" +  wordOne[1] + "-" +  wordOne[2];
+        String wordTwoConcat =  "" + "-" +  wordTwo[1] + "-" +  wordTwo[2];
+
+
+        db.deleteWordFromDB(wordOne[0], wordOne[1],wordOne[2]);
+        db.deleteWordFromDB(wordTwo[0], wordTwo[1],wordTwo[2]);
+
+
+        boolean firstWordFound = false;
+
+        for(int i = 0; i < 100; ++i) {
+            if(rootWords[i] == null) {
+                break;
+            }
+
+            if(rootWords[i].equals(wordOneConcat) ) {
+                firstWordFound = true;
+            }
+
+
+            if((!rootWords[i].equals(wordTwoConcat)) && !firstWordFound  ) {
+                fail("Failed to test testDBOrderByNuLL");
+            }
+
+        }
+
+    }
+
 
 
 }
