@@ -88,4 +88,24 @@ class InputTest {
         }
 
     }
+
+    //Реализовать сравнение конкатенированных слов со словом, которое ввел пользователь
+
+    @Test
+    void testWordsInput() {
+        String inputedWord= "предутренний\r\n" + "пред утрен няя\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("First word which you entered and word from concated parts do not match")) {
+            fail("Failed testWordsInput");
+        }
+    }
 }

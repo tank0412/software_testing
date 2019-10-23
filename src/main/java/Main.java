@@ -31,33 +31,48 @@ public class Main {
                         System.out.println(rootwords[i]);
                 }
             } else {
-                String[] wordParts = new String[3];
-                String record = input.requestWordForDB();
-                int countSpaces = 0;
+                boolean checkSecondTimeInput = true;
                 int j = 0, i;
-                int count = 0;
-                for (i = 0; i < record.length(); ++i) {
-                    char[] array = record.toCharArray();
-                    if (array[i] == ' ' || i == array.length - 1) {
-                        int index = 0;
-                        char[] temp = new char[10];
-                        for (; j < i; ++j) {
-                            if (i == array.length - 1) ++i; // для последней буквы слова
-                            if (array[j] == ' ') {
-                                countSpaces++;
-                                continue;
+                String[] wordParts = new String[3];
+                do {
+                    String record = input.requestWordForDB();
+                    if (record.equals("q")) {
+                        System.out.println("Exiting...");
+                        return;
+                    }
+                    int countSpaces = 0;
+                    int count = 0;
+                    for (i = 0; i < record.length(); ++i) {
+                        char[] array = record.toCharArray();
+                        if (array[i] == ' ' || i == array.length - 1) {
+                            int index = 0;
+                            char[] temp = new char[10];
+                            for (; j < i; ++j) {
+                                if (i == array.length - 1) ++i; // для последней буквы слова
+                                if (array[j] == ' ') {
+                                    countSpaces++;
+                                    continue;
+                                }
+                                temp[index] = array[j];
+                                index++;
                             }
-                            temp[index] = array[j];
-                            index++;
+                            j = i;
+                            wordParts[count] = new String(temp).trim();
+                            count++;
                         }
-                        j = i;
-                        wordParts[count] = new String(temp);
-                        count++;
+                    }
+                    if (countSpaces != 2) {
+                        System.out.println("You have entered not Two words!");
+                    }
+                    String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
+                    if(tempConcat.equals(inputWord)) {
+                        checkSecondTimeInput = false;
+                    }
+                    else {
+                        System.out.println("First word which you entered and word from concated parts do not match");
                     }
                 }
-                if(countSpaces != 2) {
-                    System.out.println("You have entered not Two words!");
-                }
+                while(checkSecondTimeInput);
                 //add new word to db
                 for (i = 0; i < 3; ++i) {
                     char[] tempCopy = wordParts[i].toCharArray();
