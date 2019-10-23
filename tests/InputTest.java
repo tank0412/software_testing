@@ -22,7 +22,7 @@ class InputTest {
     //Реализовать вывод сообщения об ошибке, если слово, введенное пользователем, не соответствует шаблону.
     @Test
     void testInputWordInAFormat() {
-        String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
+        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
@@ -95,7 +95,7 @@ class InputTest {
     // Реализовать вывод сообщения об ошибке, если конкатенированное слово, которое получено из ранее введенных
     @Test
     void testWordsInput() {
-        String inputedWord= "предутренний\r\n" + "пред утрен няя\r\n" + "q";
+        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен няя\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
@@ -114,7 +114,7 @@ class InputTest {
     //Ожидать ввода нового слова или q
     @Test
     void checkWaitForNewWordOrQ() {
-        String inputedWord= "сделанный\r\n" + "с дел анный\r\n" + "q";
+        String inputedWord= "сделанный\r\n" + "Y\r\n" + "с дел анный\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();

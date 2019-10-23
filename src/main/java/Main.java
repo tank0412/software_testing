@@ -31,6 +31,27 @@ public class Main {
                         System.out.println(rootwords[i]);
                 }
             } else {
+                String isContinue = "";
+                boolean isEquals = false;
+                do {
+                    isContinue = input.requestWord("Should we save word in DB: press 'Y' for continue or 'q' for exit");
+                    switch(isContinue.charAt(0)) {
+                        case 'Y': {
+                            isEquals = true;
+                            break;
+                        }
+                        case 'q': {
+                            System.out.println("Exiting...");
+                            return;
+                        }
+                        default: {
+                            System.out.println("Incorrect answer. Try again");
+                            break;
+                        }
+
+                    }
+                }
+                while(!isEquals);
                 boolean checkSecondTimeInput = true;
                 int j = 0, i;
                 String[] wordParts = new String[3];

@@ -115,7 +115,7 @@ class DatabaseTest {
     @Test
     void testInputWordSaveToDB() {
         Database db = new Database();
-        String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
+        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         Main.main(null);
