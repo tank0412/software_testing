@@ -18,6 +18,7 @@ class InputTest {
         //assertEquals(false, myinput.checkUserInput("test"), "It contains latin so it must fail"); Add temp latin support for null in input
     }
     //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, корень и посткоренная часть
+    // Реализовать проверку введенных частей слова пользователем на соответствие шаблону (частьСлова Пробел частьСлова Пробел частьСлова)
     @Test
     void testInputWordInAFormat() {
         String inputedWord= "предутренний\r\n" + "пред утрен ний\r\n" + "q";
