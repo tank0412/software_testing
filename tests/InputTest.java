@@ -108,4 +108,28 @@ class InputTest {
             fail("Failed testWordsInput");
         }
     }
+
+    //Ожидать ввода нового слова или q
+    @Test
+    void checkWaitForNewWordOrQ() {
+        String inputedWord= "сделанный\r\n" + "с дел анный\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        int count = output.length() - output.replaceAll("Please write a word","").length();
+
+        Database db = new Database();
+        db.deleteWordFromDB("c", "дел", "ланный");
+
+        if(count <= 19) {
+            fail("Failed checkWaitForNewWordOrQ");
+        }
+    }
 }
