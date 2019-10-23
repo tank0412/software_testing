@@ -79,6 +79,12 @@ public class Database {
             return "'" + wordPart + "'";
         }
     }
+    String checkIsNullBeforeDelete(String wordPart) {
+        if(wordPart.equals("null")) return "is" + "null";
+        else {
+            return "=" + "'" + wordPart + "'";
+        }
+    }
     String[] getRootWords(String word) {
         //String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
         String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary;";
@@ -118,7 +124,7 @@ public class Database {
         Connection ourConnection = getConnection();
         try {
             Statement stmt = ourConnection.createStatement();
-            String sql = "DELETE FROM Dictionary WHERE beforeroot =" +  "'" + before + "'" + " AND " + "Root=" + "'" + root + "'" + " AND" + " AfterRoot=" +  "'" + after + "'" + ";" ;
+            String sql = "DELETE FROM Dictionary WHERE beforeroot " +  checkIsNullBeforeDelete(before) + " AND " + "Root" + checkIsNullBeforeDelete(root) + " AND" + " AfterRoot" +  checkIsNullBeforeDelete(after) + ";" ;
             stmt.executeUpdate(sql);
         }
         catch (SQLException e) {

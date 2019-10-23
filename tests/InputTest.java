@@ -128,10 +128,28 @@ class InputTest {
         int count = output.length() - output.replaceAll("Please write a word","").length();
 
         Database db = new Database();
-        db.deleteWordFromDB("c", "дел", "ланный");
+        db.deleteWordFromDB("c", "дел", "анный");
 
         if(count <= 19) {
             fail("Failed checkWaitForNewWordOrQ");
+        }
+    }
+    //Реализовать запрос у пользователя на сохранение слова в БД
+    @Test
+    void checkRequestForWordInput() {
+        String inputedWord= "сделанная\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("Should we save word in DB: press 'Y' for continue or 'q' for exit")) {
+            fail("Failed checkRequestForWordInput");
         }
     }
 }
