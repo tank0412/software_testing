@@ -152,4 +152,22 @@ class InputTest {
             fail("Failed checkRequestForWordInput");
         }
     }
+    //Проверить ответ пользователя на запрос: корректным будет являться ответ “Y” (с учетом регистра) или “q”. (для выхода из программы)
+    @Test
+    void checkUserAnswerOnRequest() {
+        String inputedWord= "сделанная\r\n" + "F\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("Incorrect answer. Try again")) {
+            fail("Failed checkUserAnswerOnRequest");
+        }
+    }
 }
