@@ -3,11 +3,7 @@ import org.junit.Ignore;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
@@ -42,8 +38,7 @@ class DatabaseTest {
         db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
     }
     //реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
-
-    @Test
+    @Deprecated
     public void testDBUpdate() {
 
         Database db = new Database();
