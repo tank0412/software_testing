@@ -123,7 +123,6 @@ class DatabaseTest {
         db.deleteWordFromDB("пред", "утрен", "ний");
 
     }
-    //Реализовать конкатенацию ввода пользователя в виде предкоренной части слова, корня и посткоренной части в одно слово
     //Проверить слово на его присутствие в БД
     //Реализовать конкатенацию строки из БД в одно слово
     @Test
@@ -141,10 +140,6 @@ class DatabaseTest {
         String output = out.toString();
 
         if(!output.contains("Should we save word in DB: press 'Y' for continue or 'q' for exit")) {
-            fail("Failed testDBIsExistsAndConcat");
-        }
-
-        if(output.contains("First word which you entered and word from concated parts do not match")) {
             fail("Failed testDBIsExistsAndConcat");
         }
 
