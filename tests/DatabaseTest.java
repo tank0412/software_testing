@@ -123,24 +123,37 @@ class DatabaseTest {
         db.deleteWordFromDB("пред", "утрен", "ний");
 
     }
-    //Реализовать конкатенацию строки из БД в одно слово
+    //Реализовать конкатенацию ввода пользователя в виде предкоренной части слова, корня и посткоренной части в одно слово
     //Проверить слово на его присутствие в БД
-    //Реализовать конкатенацию предкоренной части слова, корня и посткоренной части в одно слово
+    //Реализовать конкатенацию строки из БД в одно слово
     @Test
     void testDBIsExistsAndConcat() {
         Database db = new Database();
-        String[] wordparts = new String[3];
-        wordparts[0] = "пред";
-        wordparts[1] = "диплом";
-        wordparts[2] = "ная";
-        db.insertWord(wordparts);
+        String inputedWord= "преддипломная\r\n" + "Y\r\n" + "пред диплом ная\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("Should we save word in DB: press 'Y' for continue or 'q' for exit")) {
+            fail("Failed testDBIsExistsAndConcat");
+        }
+
+        if(output.contains("First word which you entered and word from concated parts do not match")) {
+            fail("Failed testDBIsExistsAndConcat");
+        }
 
         boolean isExists = db.checkIsWordExists("преддипломная");
         if(!isExists) {
             fail("Failed to check is word exists in DB");
         }
 
-        db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
+        db.deleteWordFromDB("пред", "диплом", "ная");
     }
 
     //Реализовать сортировку полученных данных из БД по количеству пустых столбцов (если в столбце null, значит у слова этой части нет)
