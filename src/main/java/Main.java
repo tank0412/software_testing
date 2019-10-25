@@ -24,6 +24,7 @@ public class Main {
             while (!check);
             boolean checkIsExists = db.checkIsWordExists(inputWord);
             if (checkIsExists) {
+                System.out.println("World have already exists!");
                 //Requests words with same root form db
                 String[] rootwords = db.getRootWords(inputWord);
                 for (int i = 0; i < rootwords.length; ++i) {

@@ -9,16 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class DatabaseTest {
     ResultSet  rs = null;
 
-    //Реализовать запрос всей таблицы со словами из БД.
-    @Test
-    public void testDBSelect() {
-
-        Database db = new Database();
-        String[][] dictionary = db.selectAllWords();
-        if(dictionary == null) {
-            fail("Failed to testDBSelect ");
-        }
-    }
     //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
 
     @Test
@@ -71,6 +61,9 @@ class DatabaseTest {
     @Test
     void testInputWordSaveToDB() {
         Database db = new Database();
+        if(db.checkIsWordExists("предутренний")) {
+                fail("World have already exists before test");
+        }
         String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
@@ -80,9 +73,18 @@ class DatabaseTest {
         if(!db.checkIsWordExists("предутренний")) {
             fail("Failed to test testInputWordSaveToDB");
         }
-
         db.deleteWordFromDB("пред", "утрен", "ний");
 
+    }
+    //Реализовать запрос всей таблицы со словами из БД.
+    @Test
+    public void testDBSelect() {
+
+        Database db = new Database();
+        String[][] dictionary = db.selectAllWords();
+        if(dictionary == null) {
+            fail("Failed to testDBSelect ");
+        }
     }
     //Проверить слово на его присутствие в БД
     //Реализовать конкатенацию строки из БД в одно слово
@@ -112,7 +114,7 @@ class DatabaseTest {
         db.deleteWordFromDB("пред", "диплом", "ная");
     }
 
-    //Реализовать сортировку полученных данных из БД по количеству пустых столбцов (если в столбце null, значит у слова этой части нет)
+    //Реализовать сортировку полученных данных из БД (однокоренных слов) по количеству пустых столбцов (если в столбце null, значит у слова этой части нет)
     //Реализовать разделение данных из столбцов дефисом
     @Test
     public void testDBOrderByNuLL() {
