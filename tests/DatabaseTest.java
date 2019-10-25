@@ -66,45 +66,6 @@ class DatabaseTest {
             fail("Failed to test testDBUpdate");
         }
     }
-    //Реализовать вывод полученного списка слов из БД по одинаковому корню.
-
-    @Test
-    public void testDBSelectRootWords() {
-        Database db = new Database();
-        String[] wordOne = new String[3];
-        wordOne[0] = "на";
-        wordOne[1] = "сып";
-        wordOne[2] = "ать";
-        db.insertWord(wordOne);
-        String[] wordTwo = new String[3];
-        wordTwo[0] = "от";
-        wordTwo[1] = "сып";
-        wordTwo[2] = "ал";
-        db.insertWord(wordTwo);
-
-        String[] rootWords = db.getRootWords(wordOne[0] + wordOne[1] + wordOne[2]);
-        int wordsFoundCount = 0;
-        String wordOneConcat =  wordOne[0] + "-" +  wordOne[1] + "-" +  wordOne[2];
-        String wordTwoConcat =  wordTwo[0] + "-" +  wordTwo[1] + "-" +  wordTwo[2];
-        for(int i = 0; i < 100; ++i) {
-            if(rootWords[i] == null) {
-                break;
-            }
-            if(rootWords[i].equals(wordOneConcat) || rootWords[i].equals(wordTwoConcat) ) {
-                wordsFoundCount++;
-            }
-
-        }
-
-        db.deleteWordFromDB(wordOne[0], wordOne[1],wordOne[2]);
-        db.deleteWordFromDB(wordTwo[0], wordTwo[1],wordTwo[2]);
-
-
-        if(wordsFoundCount != 2) {
-            fail("Failed to test testDBSelectRootWords");
-        }
-
-    }
 
     //Реализовать поддержку сохранения однокоренного слова в виде предкоренной части, корня и посткоренной части в БД, если оно там отсутствует
     @Test

@@ -187,4 +187,40 @@ class InputTest {
             fail("Failed checkUserAnswerOnRequest");
         }
     }
+
+    //Реализовать вывод полученного списка слов из БД по одинаковому корню.
+    @Test
+    public void testPublishRootWords() {
+        Database db = new Database();
+        String[] wordOne = new String[3];
+        wordOne[0] = "на";
+        wordOne[1] = "сып";
+        wordOne[2] = "ать";
+        db.insertWord(wordOne);
+        String[] wordTwo = new String[3];
+        wordTwo[0] = "от";
+        wordTwo[1] = "сып";
+        wordTwo[2] = "ал";
+        db.insertWord(wordTwo);
+
+        String inputedWord= "насыпать\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("от-сып-ал") || !output.contains("на-сып-ать")  ) {
+            fail("Failed testDBIsExistsAndConcat");
+        }
+
+        db.deleteWordFromDB(wordOne[0], wordOne[1],wordOne[2]);
+        db.deleteWordFromDB(wordTwo[0], wordTwo[1],wordTwo[2]);
+
+
+    }
 }
