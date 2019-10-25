@@ -83,7 +83,7 @@ public class Main {
                         }
                     }
                     if (countSpaces != 2) {
-                        System.out.println("You have entered not Two words!");
+                        System.out.println("You have entered not three word parts!");
                     }
                     String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
                     if(tempConcat.equals(inputWord)) {

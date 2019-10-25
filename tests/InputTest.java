@@ -2,7 +2,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.Scanner;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,8 +17,6 @@ class InputTest {
         //assertEquals(false, myinput.checkUserInput("test"), "It contains latin so it must fail"); Add temp latin support for null in input
     }
     //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, пробел, корень, пробел, посткоренная часть
-    //Реализовать проверку введенных частей слова пользователем на соответствие шаблону (частьСлова Пробел частьСлова Пробел частьСлова)
-    //Реализовать вывод сообщения об ошибке, если слово, введенное пользователем, не соответствует шаблону.
     @Test
     void testInputWordInAFormat() {
         String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
@@ -32,14 +29,31 @@ class InputTest {
         System.setOut(System.out);
 
         String output = out.toString();
-//
-        if(output.contains("You have entered not Two words!")) {
+
+        Database db = new Database();
+        boolean checkIsExists = db.checkIsWordExists("предутренний");
+        db.deleteWordFromDB("пред", "утрен", "ний");
+        if(!checkIsExists) {
             fail("Failed testInputWordInAFormat");
         }
-        Database db = new Database();
-        db.deleteWordFromDB("пред", "утрен", "ний");
+    }
+    //Реализовать проверку введенных частей слова пользователем на соответствие шаблону (частьСлова Пробел частьСлова Пробел частьСлова)
+    //Реализовать вывод сообщения об ошибке, если слово, введенное пользователем, не соответствует шаблону.
+    @Test
+    void testWrongInputWord() {
+        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утренний\r\n" + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
 
-
+        String output = out.toString();
+        if(!output.contains("You have entered not three word parts!")) {
+            fail("Failed testWrongInputWord");
+        }
 
     }
     //Реализовать выход из программы при вводе буквы q
