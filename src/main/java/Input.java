@@ -58,15 +58,7 @@ public class Input {
             System.out.println("You have entered not three word parts!");
         }
         String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
-        if(tempConcat.equals(inputWord)) {
-            checkSecondTimeInput = false;
-            return resizeArrayBeforeStoreInDB(wordParts);
-        }
-        else {
-            System.out.println("First word which you entered and word from concated parts do not match");
-            checkSecondTimeInput = true;
-            return null;
-        }
+        return checkConcatAndWord(tempConcat, inputWord, wordParts);
     }
     public String[] resizeArrayBeforeStoreInDB( String[] wordParts) {
         int i = 0, j = 0;
@@ -101,6 +93,17 @@ public class Input {
         for (int i = 0; i < rootwords.length; ++i) {
             if (rootwords[i] != null)
                 System.out.println(rootwords[i]);
+        }
+    }
+    public String[] checkConcatAndWord(String tempConcat, String inputWord, String[] wordParts ) {
+        if(tempConcat.equals(inputWord)) {
+            checkSecondTimeInput = false;
+            return resizeArrayBeforeStoreInDB(wordParts);
+        }
+        else {
+            System.out.println("First word which you entered and word from concated parts do not match");
+            checkSecondTimeInput = true;
+            return null;
         }
     }
 }
