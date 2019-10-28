@@ -60,12 +60,33 @@ public class Input {
         String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
         if(tempConcat.equals(inputWord)) {
             checkSecondTimeInput = false;
-            return wordParts;
+            return resizeArrayBeforeStoreInDB(wordParts);
         }
         else {
             System.out.println("First word which you entered and word from concated parts do not match");
             checkSecondTimeInput = true;
             return null;
         }
+    }
+    public String[] resizeArrayBeforeStoreInDB( String[] wordParts) {
+        int i = 0, j = 0;
+        //add new word to db
+        for (i = 0; i < 3; ++i) {
+            char[] tempCopy = wordParts[i].toCharArray();
+            int countLetters = 0;
+            for (j = 0; j < tempCopy.length; ++j) {
+                if (tempCopy[j] != 0) {
+                    countLetters++;
+                }
+            }
+            char[] resized = new char[countLetters];
+            for (j = 0; j < countLetters; ++j) {
+                if (tempCopy[j] != 0) {
+                    resized[j] = tempCopy[j];
+                }
+            }
+            wordParts[i] = new String(resized);
+        }
+        return wordParts;
     }
 }

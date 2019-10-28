@@ -64,23 +64,7 @@ public class Main {
                     wordParts = input.prepareWordToStoreInDB(inputWord, record);
                 }
                 while(Input.checkSecondTimeInput);
-                //add new word to db
-                for (i = 0; i < 3; ++i) {
-                    char[] tempCopy = wordParts[i].toCharArray();
-                    int countLetters = 0;
-                    for (j = 0; j < tempCopy.length; ++j) {
-                        if (tempCopy[j] != 0) {
-                            countLetters++;
-                        }
-                    }
-                    char[] resized = new char[countLetters];
-                    for (j = 0; j < countLetters; ++j) {
-                        if (tempCopy[j] != 0) {
-                            resized[j] = tempCopy[j];
-                        }
-                    }
-                    wordParts[i] = new String(resized);
-                }
+
                 db.insertWord(wordParts);
 
             }
