@@ -89,4 +89,18 @@ public class Input {
         }
         return wordParts;
     }
+    public void publishInputCheckResult(Boolean check) {
+        if (check) {
+            System.out.println("Input correct");
+        }
+        else {
+            System.out.println("Input has latin or digit or special symbol. Try again");
+        }
+    }
+    public void publishRootWords(String[] rootwords) {
+        for (int i = 0; i < rootwords.length; ++i) {
+            if (rootwords[i] != null)
+                System.out.println(rootwords[i]);
+        }
+    }
 }

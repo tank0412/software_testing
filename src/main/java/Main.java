@@ -14,12 +14,7 @@ public class Main {
                     return;
                 }
                 check = input.checkUserInput(inputWord);
-                if (check) {
-                    System.out.println("Input correct");
-                }
-                else {
-                    System.out.println("Input has latin or digit or special symbol. Try again");
-                }
+                input.publishInputCheckResult(check);
             }
             while (!check);
             boolean checkIsExists = db.checkIsWordExists(inputWord);
@@ -27,10 +22,7 @@ public class Main {
                 System.out.println("World have already exists!");
                 //Requests words with same root form db
                 String[] rootwords = db.getRootWords(inputWord);
-                for (int i = 0; i < rootwords.length; ++i) {
-                    if (rootwords[i] != null)
-                        System.out.println(rootwords[i]);
-                }
+                input.publishRootWords(rootwords);
             } else {
                 String isContinue = "";
                 boolean isEquals = false;
