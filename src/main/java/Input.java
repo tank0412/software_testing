@@ -4,16 +4,17 @@ import java.util.regex.Pattern;
 
 public class Input {
     public static Scanner scanner;
+    static boolean checkSecondTimeInput = true;
     Input() {
         scanner = new Scanner(System.in);
     }
-    public static String requestWord(String inputQuestion) {
+    public String requestWord(String inputQuestion) {
         System.out.println(inputQuestion);
         String input = scanner.nextLine();
         return input;
     }
 
-    public static Boolean checkUserInput(String userInput) {
+    public Boolean checkUserInput(String userInput) {
         Pattern pattern = Pattern.compile(
                 "[" +                   //начало списка допустимых символов
                         "а-яА-ЯёЁ" +    //буквы русского алфавита
@@ -23,9 +24,48 @@ public class Input {
         Matcher matcher = pattern.matcher(userInput);
         return matcher.matches();
     }
-    public static String requestWordForDB() {
+    public String requestWordForDB() {
         System.out.println("Enter word in format: beforeRoot Root afterRoot USE spaces");
         String input = scanner.nextLine();
         return input;
+    }
+    public String[] prepareWordToStoreInDB(String inputWord, String record) {
+        String[] wordParts = new String[3];
+
+        int countSpaces = 0;
+        int count = 0;
+        int i = 0, j = 0;
+        for (i = 0; i < record.length(); ++i) {
+            char[] array = record.toCharArray();
+            if (array[i] == ' ' || i == array.length - 1) {
+                int index = 0;
+                char[] temp = new char[10];
+                for (; j < i; ++j) {
+                    if (i == array.length - 1) ++i; // для последней буквы слова
+                    if (array[j] == ' ') {
+                        countSpaces++;
+                        continue;
+                    }
+                    temp[index] = array[j];
+                    index++;
+                }
+                j = i;
+                wordParts[count] = new String(temp).trim();
+                count++;
+            }
+        }
+        if (countSpaces != 2) {
+            System.out.println("You have entered not three word parts!");
+        }
+        String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
+        if(tempConcat.equals(inputWord)) {
+            checkSecondTimeInput = false;
+            return wordParts;
+        }
+        else {
+            System.out.println("First word which you entered and word from concated parts do not match");
+            checkSecondTimeInput = true;
+            return null;
+        }
     }
 }

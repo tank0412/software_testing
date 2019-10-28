@@ -53,7 +53,6 @@ public class Main {
                     }
                 }
                 while(!isEquals);
-                boolean checkSecondTimeInput = true;
                 int j = 0, i;
                 String[] wordParts = new String[3];
                 do {
@@ -62,39 +61,9 @@ public class Main {
                         System.out.println("Exiting...");
                         return;
                     }
-                    int countSpaces = 0;
-                    int count = 0;
-                    for (i = 0; i < record.length(); ++i) {
-                        char[] array = record.toCharArray();
-                        if (array[i] == ' ' || i == array.length - 1) {
-                            int index = 0;
-                            char[] temp = new char[10];
-                            for (; j < i; ++j) {
-                                if (i == array.length - 1) ++i; // для последней буквы слова
-                                if (array[j] == ' ') {
-                                    countSpaces++;
-                                    continue;
-                                }
-                                temp[index] = array[j];
-                                index++;
-                            }
-                            j = i;
-                            wordParts[count] = new String(temp).trim();
-                            count++;
-                        }
-                    }
-                    if (countSpaces != 2) {
-                        System.out.println("You have entered not three word parts!");
-                    }
-                    String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
-                    if(tempConcat.equals(inputWord)) {
-                        checkSecondTimeInput = false;
-                    }
-                    else {
-                        System.out.println("First word which you entered and word from concated parts do not match");
-                    }
+                    wordParts = input.prepareWordToStoreInDB(inputWord, record);
                 }
-                while(checkSecondTimeInput);
+                while(Input.checkSecondTimeInput);
                 //add new word to db
                 for (i = 0; i < 3; ++i) {
                     char[] tempCopy = wordParts[i].toCharArray();
