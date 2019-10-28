@@ -72,18 +72,27 @@ class InputTest {
     @Test
     void testInputWordWithFewSpecialSymbols() {
         String word = "test\r\n";
-        testInputWordWithSpecialSymbols(word, false);
+        testInputWordWithSpecialSymbols(word);
         word = "тест0419\r\n";
-        testInputWordWithSpecialSymbols(word, false);
+        testInputWordWithSpecialSymbols(word);
         word = "тест!\r\n";
-        testInputWordWithSpecialSymbols(word, false);
+        testInputWordWithSpecialSymbols(word);
     }
 
-    void testInputWordWithSpecialSymbols(String word, boolean isCorrect) {
-        Input input = new Input();
-        boolean check = input.checkUserInput(word);
-        if(check != isCorrect) {
-            fail("Failed testInputWordWithSpecialSymbols: " + word + " is " + check);
+    void testInputWordWithSpecialSymbols(String word) {
+        String inputedWord= word + "q";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains("Input has latin or digit or special symbol. Try again")) {
+            fail("Failed testInputWordWithSpecialSymbols");
         }
 
     }
