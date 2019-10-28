@@ -66,17 +66,15 @@ class DatabaseTest {
         if(db.checkIsWordExists("предутренний")) {
                 fail("World have already exists before test");
         }
-        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
-        Main.main(null);
-        System.setIn(System.in);
 
-        if(!db.checkIsWordExists("предутренний")) {
-            fail("Failed to test testInputWordSaveToDB");
-        }
+        Input input = new Input();
+        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        db.insertWord(wordParts);
+        boolean checkIsExists = db.checkIsWordExists("предутренний");
         db.deleteWordFromDB("пред", "утрен", "ний");
-
+        if(!checkIsExists) {
+            fail("Failed testInputWordInAFormat");
+        }
     }
     //Реализовать запрос всей таблицы со словами из БД.
     @Test
