@@ -1,3 +1,5 @@
+import java.sql.ResultSet;
+
 public class Main {
     public static void main(String[] args) {
         Database db = new Database();
@@ -21,7 +23,8 @@ public class Main {
             if (checkIsExists) {
                 System.out.println("World have already exists!");
                 //Requests words with same root form db
-                String[] rootwords = db.getRootWords(inputWord);
+                ResultSet rsRoot = db.getRootWords(inputWord);
+                String[] rootwords = db.returnPreparedRootWordsFromDB(rsRoot);
                 input.publishRootWords(rootwords);
             } else {
                 boolean isEquals = false;

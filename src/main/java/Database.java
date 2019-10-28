@@ -85,11 +85,11 @@ public class Database {
             return "=" + "'" + wordPart + "'";
         }
     }
-    String[] getRootWords(String word) {
+    ResultSet getRootWords(String word) {
         //String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
         String sql = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary;";
         String rootOfWord = null;
-        String[] rootWord = new String[100]; // TODO: Fix constant size of array
+        ResultSet rsRoot = null;
         try {
             stmt = dbConnection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
@@ -102,9 +102,22 @@ public class Database {
             //String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + rootOfWord + "'" + ';' ;
             String sqlRootWords = "SELECT BeforeRoot,Root,AfterRoot FROM Dictionary WHERE Root =" + "'" + rootOfWord + "'" + "ORDER BY BeforeRoot IS NULL DESC, AfterRoot IS NULL DESC;";
             stmt = dbConnection.createStatement();
-            ResultSet rsRoot = stmt.executeQuery(sqlRootWords);
-            int wordIndex = 0;
-            String wordDb = null;
+            rsRoot = stmt.executeQuery(sqlRootWords);
+
+        }
+        catch (SQLException exp3) {
+            System.out.println("Error create connection. Error is " + exp3);
+            return null;
+        }
+
+        return rsRoot;
+    }
+
+    String[] returnPreparedRootWordsFromDB(ResultSet rsRoot) {
+        String[] rootWord = new String[100]; // TODO: Fix constant size of array
+        int wordIndex = 0;
+        String wordDb;
+        try {
             while (rsRoot.next()) {
                 wordDb = checkIsNullColumn(rsRoot.getString("BeforeRoot")) + '-' + checkIsNullColumn(rsRoot.getString("Root")) + '-' + checkIsNullColumn(rsRoot.getString("AfterRoot"));
                 rootWord[wordIndex] = wordDb;
@@ -117,7 +130,7 @@ public class Database {
         }
         Set<String> temp = new LinkedHashSet<String>( Arrays.asList( rootWord ) ); // to make array of unique words
         rootWord = temp.toArray( new String[temp.size()] );
-        return rootWord;
+        return  rootWord;
     }
 
     void deleteWordFromDB(String before, String root, String after) {
