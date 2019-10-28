@@ -24,10 +24,9 @@ public class Main {
                 String[] rootwords = db.getRootWords(inputWord);
                 input.publishRootWords(rootwords);
             } else {
-                String isContinue = "";
                 boolean isEquals = false;
                 do {
-                    isContinue = input.requestWord("Should we save word in DB: press 'Y' for continue or 'q' for exit");
+                    String isContinue = input.requestWord("Should we save word in DB: press 'Y' for continue or 'q' for exit");
                     switch(isContinue.charAt(0)) {
                         case 'Y': {
                             isEquals = true;

@@ -19,18 +19,10 @@ class InputTest {
     //Реализовать поддержку ввода слова пользователем в формате: предкоренная часть слова, пробел, корень, пробел, посткоренная часть
     @Test
     void testInputWordInAFormat() {
-        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен ний\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
-        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
-        System.setOut(System.out);
-
-        String output = out.toString();
-
+        Input input = new Input();
+        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
         Database db = new Database();
+        db.insertWord(wordParts);
         boolean checkIsExists = db.checkIsWordExists("предутренний");
         db.deleteWordFromDB("пред", "утрен", "ний");
         if(!checkIsExists) {
