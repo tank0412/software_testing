@@ -31,7 +31,6 @@ class InputTest {
         }
     }
 
-    //Реализовать конкатенацию ввода пользователя в виде предкоренной части слова, корня и посткоренной части в одно слово
     //Реализовать сравнение конкатенированных слов со словом, которое ввел пользователь
     @Test
     void testWrongInputWordInAFormat() {
@@ -40,7 +39,17 @@ class InputTest {
         wordParts = input.checkConcatAndWord("предутренний", wordParts);
 
         if(wordParts != null) {
-            fail("Failed testInputWordInAFormat");
+            fail("Failed testWrongInputWordInAFormat");
+        }
+    }
+    //Реализовать конкатенацию ввода пользователя в виде предкоренной части слова, корня и посткоренной части в одно слово
+    @Test
+    void testInputWordConcat() {
+        Input input = new Input();
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен няя");
+        String concat = wordParts[0] + wordParts[1] + wordParts[2];
+        if (!concat.equals("предутренняя")) {
+            fail("Failed testInputWordConcat");
         }
     }
     //Реализовать проверку введенных частей слова пользователем на соответствие шаблону (частьСлова Пробел частьСлова Пробел частьСлова)
