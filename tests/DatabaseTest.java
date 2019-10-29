@@ -3,8 +3,10 @@ import org.junit.Ignore;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -87,12 +89,11 @@ class DatabaseTest {
         }
     }
     //Реализовать проверку слова на его присутствие в БД
-    //Реализовать конкатенацию строки из БД в одно слово
     @Test
-    void testDBIsExistsAndConcat() {
+    void testDBIsExists() {
         Database db = new Database();
-        if(db.checkIsWordExists("преддипломная")) {
-            fail("Test word exists before test in testDBIsExistsAndConcat ");
+        if(db.checkIsWordExists("предутренний")) {
+            fail("Test word exists before test in testDBIsExists ");
         }
         Input input = new Input();
         String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
@@ -101,6 +102,43 @@ class DatabaseTest {
             fail("It reports that word does not exists after insert");
         }
         db.deleteWordFromDB("пред", "утрен", "ний");
+    }
+    //Реализовать конкатенацию строки из БД в одно слово
+
+    @Test
+    void testConcatRecordFromDB() {
+        Database db = new Database();
+        if(db.checkIsWordExists("предутренний")) {
+            fail("Test word exists before test in testConcatRecordFromDB ");
+
+        }
+        Input input = new Input();
+        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        db.insertWord(wordParts);
+
+        //make db query to get a result set to test concat record from DB
+        String selectQuery = "SELECT * FROM Dictionary;";
+        Connection ourConnection = db.getConnection();
+        boolean isConcatSucceeded = false;
+        try {
+           Statement stmt = ourConnection.createStatement();
+           ResultSet rs = stmt.executeQuery(selectQuery);
+
+        while(rs.next()) {
+            if(db.concatRecordFromDBToWord(rs).equals("предутренний")) {
+                isConcatSucceeded = true;
+            }
+        }
+        }
+        catch (SQLException exp) {
+            fail("We have sql exception" + exp);
+        }
+
+        db.deleteWordFromDB("пред", "утрен", "ний");
+
+        if(!isConcatSucceeded) {
+            fail("Error in concat db record function");
+        }
     }
 
     //Реализовать разделение данных из столбцов дефисом
