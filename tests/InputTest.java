@@ -56,15 +56,12 @@ class InputTest {
     //Реализовать вывод сообщения об ошибке, если слово, введенное пользователем, не соответствует шаблону.
     @Test
     void testWrongInputWord() {
-        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утренний\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
         System.setOut(System.out);
 
+        Input input = new Input();
+        input.prepareWordToStoreInDB("пред утренний");
         String output = out.toString();
         if(!output.contains("You have entered not three word parts!")) {
             fail("Failed testWrongInputWord");
