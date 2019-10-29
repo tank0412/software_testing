@@ -91,24 +91,22 @@ class InputTest {
     //Если в слове есть цифры, латиница и спец. символы, вывести сообщение об ошибке.
     @Test
     void testInputWordWithFewSpecialSymbols() {
-        String word = "test\r\n";
+        String word = "test";
         testInputWordWithSpecialSymbols(word);
-        word = "тест0419\r\n";
+        word = "тест0419";
         testInputWordWithSpecialSymbols(word);
-        word = "тест!\r\n";
+        word = "тест!";
         testInputWordWithSpecialSymbols(word);
     }
 
     void testInputWordWithSpecialSymbols(String word) {
-        String inputedWord= word + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
-        System.setOut(System.out);
 
+        Input input = new Input();
+        input.proceedInputCheckResult(word);
+
+        System.setOut(System.out);
         String output = out.toString();
 
         if(!output.contains("Input has latin or digit or special symbol. Try again")) {

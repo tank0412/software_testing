@@ -82,12 +82,15 @@ public class Input {
         }
         return wordParts;
     }
-    public void publishInputCheckResult(Boolean check) {
+    public boolean proceedInputCheckResult(String inputWord) {
+        boolean check = checkUserInput(inputWord);
         if (check) {
             System.out.println("Input correct");
+            return true;
         }
         else {
             System.out.println("Input has latin or digit or special symbol. Try again");
+            return false;
         }
     }
     public void publishRootWords(String[] rootwords) {

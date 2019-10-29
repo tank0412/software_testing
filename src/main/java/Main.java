@@ -15,8 +15,7 @@ public class Main {
                     System.out.println("Exiting...");
                     return;
                 }
-                check = input.checkUserInput(inputWord);
-                input.publishInputCheckResult(check);
+                check = input.proceedInputCheckResult(inputWord);
             }
             while (!check);
             boolean checkIsExists = db.checkIsWordExists(inputWord);
