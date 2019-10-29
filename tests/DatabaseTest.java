@@ -7,8 +7,8 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
-    //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
 
+    //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
     @Test
     public void testDBInsert() {
 
@@ -25,8 +25,8 @@ class DatabaseTest {
 
         db.deleteWordFromDB(wordparts[0], wordparts[1], wordparts[2]);
     }
-    //реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
-    @Deprecated
+    //Реализовать обновление сохраненного слова в БД, если пользователь сохранил слово с опечаткой
+    @Test
     public void testDBUpdate() {
 
         Database db = new Database();
@@ -74,7 +74,7 @@ class DatabaseTest {
         }
     }
     //Реализовать запрос всей таблицы со словами из БД.
-    @Test
+    @Deprecated
     public void testDBSelect() {
 
         Database db = new Database();

@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.sql.ResultSet;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -115,7 +116,8 @@ class InputTest {
 
     }
 
-    // Реализовать вывод сообщения об ошибке, если конкатенированное слово, которое получено из ранее введенных не совпадает
+    // Реализовать вывод сообщения об ошибке, если конкатенированное слово, которое получено из ранее введенных предкоренной части слова,
+    // корня и посткоренной части и слово, которое пользователь ввел изначально не совпадают.
     @Test
     void testWordsInput() {
         Input input = new Input();
@@ -134,7 +136,7 @@ class InputTest {
 
     }
 
-    //Ожидать ввода нового слова или q
+    //Реализовать ожидание ввода нового слова или q после сохранения слова в БД
     @Test
     void checkWaitForNewWordOrQ() {
         String inputedWord= "подделанный\r\n" + "Y\r\n" + "под дел анный\r\n" + "q";
@@ -175,8 +177,8 @@ class InputTest {
             fail("Failed checkRequestForWordInput");
         }
     }
-    //Проверить ответ пользователя на запрос: корректным будет являться ответ “Y” (с учетом регистра) или “q”. (для выхода из программы)
-    //Если ответ некорректен вывести сообщение об ошибке и повторить запрос, пока ответ не станет корректным
+    //Проверить ответ пользователя на запрос сохранения слова в БД: корректным будет являться ответ “Y” (с учетом регистра) или “q”. (для выхода из программы)
+    //Если ответ на запрос сохранения слова в БД некорректен вывести сообщение об ошибке и повторить запрос, пока ответ не станет корректным
     @Test
     void checkUserAnswerOnRequest() {
         String inputedWord= "сделанная\r\n" + "F\r\n" + "q";
@@ -210,24 +212,22 @@ class InputTest {
         wordTwo[2] = "ал";
         db.insertWord(wordTwo);
 
-        String inputedWord= "насыпать\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
+
+        Input input = new Input();
+        ResultSet rsRoot = db.getRootWords("насыпать"); //make sql qquery to ger root words
+        String[] rootwords = db.returnPreparedRootWordsFromDB(rsRoot);
+        input.publishRootWords(rootwords); // publish these root words
+
         System.setOut(System.out);
-
         String output = out.toString();
-
-        if(!output.contains("от-сып-ал") || !output.contains("на-сып-ать")  ) {
-            fail("Failed testDBIsExistsAndConcat");
-        }
 
         db.deleteWordFromDB(wordOne[0], wordOne[1],wordOne[2]);
         db.deleteWordFromDB(wordTwo[0], wordTwo[1],wordTwo[2]);
 
-
+        if(!output.contains("от-сып-ал") || !output.contains("на-сып-ать")  ) {
+            fail("Failed testDBIsExistsAndConcat");
+        }
     }
 }
