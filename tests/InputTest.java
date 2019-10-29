@@ -118,18 +118,17 @@ class InputTest {
     // Реализовать вывод сообщения об ошибке, если конкатенированное слово, которое получено из ранее введенных не совпадает
     @Test
     void testWordsInput() {
-        String inputedWord= "предутренний\r\n" + "Y\r\n" + "пред утрен няя\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
+        Input input = new Input();
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
         System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
-        System.setOut(System.out);
 
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен ний");
+        wordParts = input.checkConcatAndWord("предутренняя", wordParts);
+
+        System.setOut(System.out);
         String output = out.toString();
 
-        if(!output.contains("First word which you entered and word from concated parts do not match")) {
+        if(!output.contains("First word which you entered and word from concated parts do not match") || wordParts != null) {
             fail("Failed testWordsInput");
         }
 
