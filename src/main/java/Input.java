@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class Input {
     public static Scanner scanner;
     static boolean checkSecondTimeInput = true;
+    private boolean notThreeWordPars = false;
     Input() {
         scanner = new Scanner(System.in);
     }
@@ -56,6 +57,7 @@ public class Input {
         }
         if (countSpaces != 2) {
             System.out.println("You have entered not three word parts!");
+            notThreeWordPars = true;
         }
         return wordParts;
     }
@@ -101,7 +103,12 @@ public class Input {
             return resizeArrayBeforeStoreInDB(wordParts);
         }
         else {
-            System.out.println("First word which you entered and word from concated parts do not match");
+            if(!notThreeWordPars) {
+                System.out.println("First word which you entered and word from concated parts do not match");
+            }
+            else {
+                notThreeWordPars = false;
+            }
             checkSecondTimeInput = true;
             return null;
         }
