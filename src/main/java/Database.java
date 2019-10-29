@@ -41,7 +41,7 @@ public class Database {
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
                 //String wordDb = rs.getString("BeforeRoot") + rs.getString("Root") + rs.getString("AfterRoot");
-                String wordDb = checkIsNullColumn(rs.getString("BeforeRoot") ) + checkIsNullColumn(rs.getString("Root")) + checkIsNullColumn(rs.getString("AfterRoot"));
+                String wordDb = concatRecordFromDBToWord(rs);
                 if(wordDb.equals(word)) {
                     System.out.println("Find record in DB");
                     //break;
@@ -94,7 +94,7 @@ public class Database {
             stmt = dbConnection.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             while (rs.next()) {
-                String wordDb = checkIsNullColumn(rs.getString("BeforeRoot")) + checkIsNullColumn(rs.getString("Root")) + checkIsNullColumn(rs.getString("AfterRoot"));
+                String wordDb = concatRecordFromDBToWord(rs);
                 if (wordDb.equals(word)) {
                     rootOfWord = rs.getString("Root");
                 }
@@ -180,5 +180,15 @@ public class Database {
         catch (SQLException exp) {
             System.out.println("We have SQLException " + exp);
         }
+    }
+    public String concatRecordFromDBToWord(ResultSet rs) {
+        String wordDb = "";
+        try {
+            wordDb = checkIsNullColumn(rs.getString("BeforeRoot")) + checkIsNullColumn(rs.getString("Root")) + checkIsNullColumn(rs.getString("AfterRoot"));
+        }
+        catch (SQLException exp) {
+            System.out.println("We have SQLException " + exp);
+        }
+        return wordDb;
     }
 }

@@ -86,32 +86,21 @@ class DatabaseTest {
             fail("Failed to testDBSelect ");
         }
     }
-    //Проверить слово на его присутствие в БД
+    //Реализовать проверку слова на его присутствие в БД
     //Реализовать конкатенацию строки из БД в одно слово
     @Test
     void testDBIsExistsAndConcat() {
         Database db = new Database();
-        String inputedWord= "преддипломная\r\n" + "Y\r\n" + "пред диплом ная\r\n" + "q";
-        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
-        System.setIn(in);
-        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
-        System.setOut(new java.io.PrintStream(out));
-        Main.main(null);
-        System.setIn(System.in);
-        System.setOut(System.out);
-
-        String output = out.toString();
-
-        if(!output.contains("Should we save word in DB: press 'Y' for continue or 'q' for exit")) {
-            fail("Failed testDBIsExistsAndConcat");
+        if(db.checkIsWordExists("преддипломная")) {
+            fail("Test word exists before test in testDBIsExistsAndConcat ");
         }
-
-        boolean isExists = db.checkIsWordExists("преддипломная");
-        if(!isExists) {
-            fail("Failed to check is word exists in DB");
+        Input input = new Input();
+        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        db.insertWord(wordParts);
+        if(!db.checkIsWordExists("предутренний")) {
+            fail("It reports that word does not exists after insert");
         }
-
-        db.deleteWordFromDB("пред", "диплом", "ная");
+        db.deleteWordFromDB("пред", "утрен", "ний");
     }
 
     //Реализовать разделение данных из столбцов дефисом
