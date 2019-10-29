@@ -20,7 +20,8 @@ class InputTest {
     @Test
     void testInputWordInAFormat() {
         Input input = new Input();
-        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен ний");
+        wordParts = input.checkConcatAndWord("предутренний", wordParts);
         Database db = new Database();
         db.insertWord(wordParts);
         boolean checkIsExists = db.checkIsWordExists("предутренний");
@@ -35,7 +36,8 @@ class InputTest {
     @Test
     void testWrongInputWordInAFormat() {
         Input input = new Input();
-        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен няя");
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен няя");
+        wordParts = input.checkConcatAndWord("предутренний", wordParts);
 
         if(wordParts != null) {
             fail("Failed testInputWordInAFormat");

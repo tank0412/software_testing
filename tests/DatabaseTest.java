@@ -1,8 +1,4 @@
 import org.junit.jupiter.api.Test;
-import org.junit.Ignore;
-
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +7,6 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DatabaseTest {
-    ResultSet  rs = null;
-
     //Реализовать поддержку сохранения однокоренного слова виде предкоренной части, корня и посткоренной части в БД.
 
     @Test
@@ -70,7 +64,8 @@ class DatabaseTest {
         }
 
         Input input = new Input();
-        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен ний");
+        wordParts = input.checkConcatAndWord("предутренний", wordParts);
         db.insertWord(wordParts);
         boolean checkIsExists = db.checkIsWordExists("предутренний");
         db.deleteWordFromDB("пред", "утрен", "ний");
@@ -96,7 +91,8 @@ class DatabaseTest {
             fail("Test word exists before test in testDBIsExists ");
         }
         Input input = new Input();
-        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен ний");
+        wordParts = input.checkConcatAndWord("предутренний", wordParts);
         db.insertWord(wordParts);
         if(!db.checkIsWordExists("предутренний")) {
             fail("It reports that word does not exists after insert");
@@ -113,7 +109,8 @@ class DatabaseTest {
 
         }
         Input input = new Input();
-        String wordParts[] = input.prepareWordToStoreInDB("предутренний", "пред утрен ний");
+        String wordParts[] = input.prepareWordToStoreInDB("пред утрен ний");
+        wordParts = input.checkConcatAndWord("предутренний", wordParts);
         db.insertWord(wordParts);
 
         //make db query to get a result set to test concat record from DB

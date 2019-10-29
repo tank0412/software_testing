@@ -29,7 +29,7 @@ public class Input {
         String input = scanner.nextLine();
         return input;
     }
-    public String[] prepareWordToStoreInDB(String inputWord, String record) {
+    public String[] prepareWordToStoreInDB(String record) {
         String[] wordParts = new String[3];
 
         int countSpaces = 0;
@@ -57,8 +57,7 @@ public class Input {
         if (countSpaces != 2) {
             System.out.println("You have entered not three word parts!");
         }
-        String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
-        return checkConcatAndWord(tempConcat, inputWord, wordParts);
+        return wordParts;
     }
     public String[] resizeArrayBeforeStoreInDB( String[] wordParts) {
         int i = 0, j = 0;
@@ -95,7 +94,8 @@ public class Input {
                 System.out.println(rootwords[i]);
         }
     }
-    public String[] checkConcatAndWord(String tempConcat, String inputWord, String[] wordParts ) {
+    public String[] checkConcatAndWord(String inputWord, String[] wordParts ) {
+        String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
         if(tempConcat.equals(inputWord)) {
             checkSecondTimeInput = false;
             return resizeArrayBeforeStoreInDB(wordParts);

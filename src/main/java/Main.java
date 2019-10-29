@@ -55,7 +55,8 @@ public class Main {
                         System.out.println("Exiting...");
                         return;
                     }
-                    wordParts = input.prepareWordToStoreInDB(inputWord, record);
+                    wordParts = input.prepareWordToStoreInDB(record);
+                    wordParts = input.checkConcatAndWord(inputWord, wordParts);
                 }
                 while(Input.checkSecondTimeInput);
 
