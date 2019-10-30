@@ -41,7 +41,8 @@ public class gamingTest {
         driver.findElement(By.xpath("(//android.view.ViewGroup[@content-desc=\"Follow\"])[1]")).click();
         //testing of 'You' menu was deprecated
         fbCommonMethods.customWait(2);
-        fbCommonMethods.callFBBackButton(2);
-
+        fbCommonMethods.callAndroidBackButton(1);
+        fbCommonMethods.customWait(2);
+        fbCommonMethods.callAndroidBackButton(1);
     }
 }
