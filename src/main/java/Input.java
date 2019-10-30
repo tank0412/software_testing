@@ -65,6 +65,9 @@ public class Input {
         int i = 0, j = 0;
         //add new word to db
         for (i = 0; i < 3; ++i) {
+            if(wordParts[i] == null) {
+                continue;
+            }
             char[] tempCopy = wordParts[i].toCharArray();
             int countLetters = 0;
             for (j = 0; j < tempCopy.length; ++j) {
@@ -100,7 +103,10 @@ public class Input {
         }
     }
     public String[] checkConcatAndWord(String inputWord, String[] wordParts ) {
-        String tempConcat =wordParts[0] +wordParts[1] + wordParts[2];
+        String tempConcat =wordParts[0] +wordParts[1];
+        if(wordParts[2] != null) {
+            tempConcat+= wordParts[2];
+        }
         if(tempConcat.equals(inputWord)) {
             checkSecondTimeInput = false;
             return resizeArrayBeforeStoreInDB(wordParts);

@@ -62,7 +62,14 @@ public class Database {
 
     void insertWord(String[] wordParts) {
         String sql = "INSERT INTO Dictionary (BeforeRoot,Root,AfterRoot) VALUES (" + checkIsNullBeforeInsert(wordParts[0].replaceAll("\\s+",""))+ "," +
-                checkIsNullBeforeInsert(wordParts[1].replaceAll("\\s+","")) + "," + checkIsNullBeforeInsert(wordParts[2].replaceAll("\\s+","")) + ");";
+                checkIsNullBeforeInsert(wordParts[1].replaceAll("\\s+","")) ;
+        if(wordParts[2] != null) { // must check this because there can be null if word has only root
+            sql+= "," + checkIsNullBeforeInsert(wordParts[2].replaceAll("\\s+", ""));
+        }
+        else {
+            sql += "," + "null";
+        }
+        sql += ");";
         try {
             stmt = dbConnection.createStatement();
             stmt.executeUpdate(sql);
@@ -74,7 +81,8 @@ public class Database {
 
     }
     String checkIsNullBeforeInsert(String wordPart) {
-        if(wordPart.equals("null") || wordPart.equals("") ) return null;
+        if(wordPart.equals("null") || wordPart.equals(""))
+            return null;
         else {
             return "'" + wordPart + "'";
         }
