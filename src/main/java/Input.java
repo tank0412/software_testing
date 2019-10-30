@@ -116,4 +116,10 @@ public class Input {
             return null;
         }
     }
+    public String[] getWordParts(String inputWord) {
+        String record = requestWordForDB();
+        String[] wordParts = prepareWordToStoreInDB(record);
+        wordParts = checkConcatAndWord(inputWord, wordParts);
+        return wordParts;
+    }
 }

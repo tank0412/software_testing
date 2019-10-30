@@ -7,6 +7,51 @@ public class Main {
         Input input = new Input();
         String inputWord = null;
         boolean check = false;
+        System.out.println("Press 1 to enter word deletion menu");
+        System.out.println("Press 2 to enter word update menu");
+        inputWord = input.requestWord("Please write a choice");
+        switch (inputWord.charAt(0)) {
+            case '1': {
+                String[] wordParts = null;
+                do {
+                    inputWord = input.requestWord("Please write a word to delete");
+                    if (inputWord.equals("q")) {
+                        System.out.println("Exiting...");
+                        return;
+                    }
+                    wordParts = input.getWordParts(inputWord);
+                    db.deleteWordFromDB(wordParts[0], wordParts[1], wordParts[2]);
+                }
+                while(wordParts == null);
+                break;
+            }
+            case '2': {
+                inputWord = input.requestWord("Please write a an old word");
+                if (inputWord.equals("q")) {
+                    System.out.println("Exiting...");
+                    return;
+                }
+                String[] wordPartsOld = input.getWordParts(inputWord);
+
+                inputWord = input.requestWord("Please write a new word");
+                if (inputWord.equals("q")) {
+                    System.out.println("Exiting...");
+                    return;
+                }
+                String[] wordPartsNew = input.getWordParts(inputWord);
+
+                db.updateWord(wordPartsOld, wordPartsNew);
+                break;
+            }
+            case 'q': {
+                System.out.println("Exiting...");
+                return;
+            }
+            default: {
+                System.out.println("Nothing is selected. Go to root words menu.");
+                break;
+            }
+        }
         for(;;) {
             do {
                 inputWord = input.requestWord("Please write a word");

@@ -72,7 +72,7 @@ class InputTest {
     //Реализовать завершение работы программы при вводе буквы q
     @Test
     void testExitAfterQ() {
-        String inputedWord= "q";
+        String inputedWord= "0\r\n" +  "q\r\n";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
@@ -162,7 +162,7 @@ class InputTest {
     //Реализовать запрос у пользователя на сохранение слова в БД
     @Test
     void checkRequestForWordInput() {
-        String inputedWord= "сделанная\r\n" + "q";
+        String inputedWord= "0\r\n" + "сделанная\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
@@ -181,7 +181,7 @@ class InputTest {
     //Если ответ на запрос сохранения слова в БД некорректен вывести сообщение об ошибке и повторить запрос, пока ответ не станет корректным
     @Test
     void checkUserAnswerOnRequest() {
-        String inputedWord= "сделанная\r\n" + "F\r\n" + "q";
+        String inputedWord= "0\r\n" +  "сделанная\r\n" + "F\r\n" + "q";
         InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
         System.setIn(in);
         java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
@@ -229,5 +229,30 @@ class InputTest {
         if(!output.contains("от-сып-ал") || !output.contains("на-сып-ать")  ) {
             fail("Failed testDBIsExistsAndConcat");
         }
+    }
+
+    //Реализовать обработку выбора пользователя в зависимости от ввода цифры в меню
+    @Test
+    public void testUpdAndDelMenu() {
+        testMenu("1\r\n", "Please write a word to delete");
+        testMenu("2\r\n", "Please write a an old word");
+    }
+
+    public void testMenu(String choice, String expectedResult) {
+        String inputedWord= choice +  "q\r\n";
+        InputStream in = new ByteArrayInputStream(inputedWord.getBytes());
+        System.setIn(in);
+        java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+        System.setOut(new java.io.PrintStream(out));
+        Main.main(null);
+        System.setIn(System.in);
+        System.setOut(System.out);
+
+        String output = out.toString();
+
+        if(!output.contains(expectedResult)) {
+            fail("Failed checkUserAnswerOnRequest");
+        }
+
     }
 }
