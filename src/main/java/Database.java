@@ -74,7 +74,7 @@ public class Database {
 
     }
     String checkIsNullBeforeInsert(String wordPart) {
-        if(wordPart.equals("null")) return null;
+        if(wordPart.equals("null") || wordPart.equals("") ) return null;
         else {
             return "'" + wordPart + "'";
         }

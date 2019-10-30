@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InputTest {
     Input myinput = new Input();
 
-    //Проверить введенное слово на наличие цифр, латиницы и спец. Символов.
+    //Проверить введенное слово на наличие цифр и спец. Символов.
     @Test
     public void testInputIsMatchPattern() {
         assertEquals(true, myinput.checkUserInput("привет"), "It contains cyrillyc so it must pass");

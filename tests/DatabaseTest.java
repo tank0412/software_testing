@@ -99,7 +99,7 @@ class DatabaseTest {
         }
         db.deleteWordFromDB("пред", "утрен", "ний");
     }
-    //Реализовать конкатенацию строки из БД в одно слово
+    //Реализовать конкатенацию строки из БД в одно слово для проверки слова на его присутствие в БД
 
     @Test
     void testConcatRecordFromDB() {
@@ -138,7 +138,7 @@ class DatabaseTest {
         }
     }
 
-    //Реализовать разделение данных из столбцов дефисом
+    //Реализовать разделение данных из столбцов дефисом, во время вывода однокоренных слов
     @Test
     public void testRootWordsOutputWithDash() {
         Database db = new Database();
