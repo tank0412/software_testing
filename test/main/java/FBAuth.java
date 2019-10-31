@@ -25,7 +25,7 @@ public class FBAuth {
         fb.customWait(10);
         driver.findElement(By.xpath("//android.view.ViewGroup[@content-desc=\"Create New Facebook Account\"]")).click();
         fb.customWait(10);
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
         /*
         try {
             driver.findElement(By.id("com.android.packageinstaller:id/permission_allow_button")).click(); // It ask for permissions during first sign up only
@@ -36,35 +36,42 @@ public class FBAuth {
         }
         */
 
-        //driver.findElementById("com.google.android.gms:id/cancel").click();
+        try {
+            driver.findElementById("com.google.android.gms:id/cancel").click();
+        }
+        catch(NoSuchElementException exp) {
+            System.out.println("No need to press btn to deny continue with google account");
+        }
 
 
-        MobileElement el1 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[1]/android.widget.FrameLayout/android.widget.EditText");
+        MobileElement el1 = (MobileElement) driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "First Name" + "\").instance(0)");
         el1.sendKeys("Ivan");
         fb.customWait(10);
 
-        MobileElement el2 = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout[2]/android.widget.FrameLayout/android.widget.EditText");
+        MobileElement el2 = (MobileElement) driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Last Name" + "\").instance(0)");
         el2.sendKeys("Ivanov");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
         fb.customWait(10);
         TouchAction touchAction = new TouchAction(driver);
         touchAction.longPress(PointOption.point(726, 490)).perform(); //or tap
         fb.customWait(5);
         touchAction.longPress(PointOption.point(465, 492)).perform();
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
 
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RadioGroup/android.widget.RadioButton[2]")).click();
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Male" + "\").instance(0)").click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
 
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[3]/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Sign Up With Email Address" + "\").instance(0)").click();
+
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Use a different email" + "\").instance(0)").click();
 
         MobileElement emailInput = (MobileElement) driver.findElementByXPath("//android.widget.EditText[@content-desc=\"Email Address\"]");
         emailInput.sendKeys("adasddfeadmhffdhfh@yandex.com");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
 
-        MobileElement pwInput = (MobileElement) driver.findElementByXPath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.EditText");
+        MobileElement pwInput = (MobileElement) driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Password" + "\").instance(0)");
         pwInput.sendKeys("TystusO4523");
-        driver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.Button")).click();
+        driver.findElementByAndroidUIAutomator("new UiSelector().textContains(\"" + "Next" + "\").instance(0)").click();
 
         driver.findElement(By.xpath("//android.widget.Button[@content-desc=\"Sign up without uploading my contacts\"]")).click();
 

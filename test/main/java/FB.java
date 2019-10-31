@@ -8,6 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         cityGuidesTest.class,
@@ -24,6 +25,7 @@ import java.net.URL;
         removeSuggestedFriendTest.class,
         videosTest.class,
 })
+
 
 public class FB {
 
